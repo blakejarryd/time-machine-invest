@@ -28,9 +28,8 @@ def share_info(ticker):
   return share_schema.dump(share)
 
 @app.route('/load/info/<ticker>')
-def update_share_info(ticker):
+def get_share_info(ticker):
   yfinance_ticker = ticker + ".AX"
-  print(yfinance_ticker)
   share = yf.Ticker(yfinance_ticker)
   info = share.info
   # print(info['sector'])
@@ -42,5 +41,22 @@ def update_share_info(ticker):
   db.session.commit()
   resp = jsonify(success=True)
   return resp
+
+@app.route('/load/prices/<ticker>')
+def get_share_price(ticker):
+  yfinance_ticker = ticker + ".AX"
+  share = yf.Ticker(yfinance_ticker)
+  db_share = Share.query.filter_by(Ticker=ticker).first()
+  prices = share.history()
+  prices.reset_index(inplace=True)
+  prices['Date'] = prices['Date'].dt.strftime('%Y-%m-%d')
+  prices.drop(['Dividends','Stock Splits', 'Open', 'High', 'Low', 'Volume'], inplace=True, axis=1)
+  pricesList = prices.to_dict(orient='records')
+  db_prices = [SharePrice(ShareId=db_share.Id, Date=price['Date'], Price=price['Close']) for price in pricesList]
+  db.session.add_all(db_prices)
+  db.session.commit()
+  resp = jsonify(success=True)
+  return resp
+
 
 
