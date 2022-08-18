@@ -3,12 +3,14 @@ import yfinance as yf
 from .commands import commands
 from .db import db
 from .ma import ma
-from .models.share import Share, SharePrice
+from .models.share import Share
 from .schemas.share_shemas import share_schema
+from .schemas.portfolio_schemas import portfolio_schema
+from .schemas.user_schemas import user_schema
 from .controllers.share_controller import (
   calculate_start_date, 
   get_info_yf, 
-  load_info_data, 
+  load_share_info, 
   get_price_data, 
   get_share_db, 
   load_price_data
@@ -42,7 +44,7 @@ def get_share_info(ticker):
     resp = jsonify(f"{ticker} is an invalid ticker")
     return resp
   info = get_info_yf(share.Ticker)
-  load_info_data(share, info)
+  load_share_info(share, info)
   resp = jsonify(f"Company information for {ticker} has been loaded")
   return resp
 
@@ -58,10 +60,6 @@ def load_share_prices(ticker):
   load_price_data(share_id, price_data)
   resp = jsonify(f"Price data from {from_date} for {ticker} has been loaded")
   return resp
-
-  # db_prices = [SharePrice(ShareId=share_id, Date=price['Date'], Price=round(price['Close'],2)) for price in pricesList]
-  # db.session.add_all(db_prices)
-  # db.session.commit()
 
 
 

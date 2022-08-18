@@ -14,7 +14,7 @@ def get_info_yf(ticker):
   info = share.info
   return info
 
-def load_info_data(share, info):
+def load_share_info(share, info):
   share.Sector = info['sector']
   share.Employees = info['fullTimeEmployees']
   share.Summary = info['longBusinessSummary']
@@ -24,7 +24,6 @@ def load_info_data(share, info):
 # To do - get start date based of existing share price data
 def calculate_start_date(ticker, args):
   start = '2022-07-01'
-  # SharePrice.query.filter_by(Ticker=ticker).first()
   if args:
     args = args.to_dict()
     from_date = args['from']
