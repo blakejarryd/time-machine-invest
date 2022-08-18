@@ -4,7 +4,8 @@ from .commands import commands
 from .db import db
 from .ma import ma
 from .models.share import Share, SharePrice
-from .schemas.share import share_schema
+from .schemas.share_shemas import share_schema
+from .controllers.share_controller import calculate_start_date, get_price_data, get_share_id, load_price_data
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://invest_app:invest_app@localhost/timemachineinvest'
@@ -44,24 +45,19 @@ def get_share_info(ticker):
 
 @app.route('/load/prices/<ticker>')
 def get_share_price(ticker):
-  start = '2022-07-01'
-  if request.args:
-    args = request.args.to_dict()
-    from_date = args['from']
-    start = from_date
-  yfinance_ticker = ticker + ".AX"
-  share = yf.Ticker(yfinance_ticker)
-  prices = share.history(start=start)
-  prices.reset_index(inplace=True)
-  prices['Date'] = prices['Date'].dt.strftime('%Y-%m-%d')
-  prices.drop(['Dividends','Stock Splits', 'Open', 'High', 'Low', 'Volume'], inplace=True, axis=1)
-  pricesList = prices.to_dict(orient='records')
-  db_share = Share.query.filter_by(Ticker=ticker).first()
-  db_prices = [SharePrice(ShareId=db_share.Id, Date=price['Date'], Price=round(price['Close'],2)) for price in pricesList]
-  db.session.add_all(db_prices)
-  db.session.commit()
+  share_id = get_share_id(ticker)
+  if not share_id:
+    resp = jsonify(f"{ticker} is an invalid ticker")
+    return resp
+  from_date = calculate_start_date(ticker, request.args)
+  price_data = get_price_data(ticker, from_date)
+  load_price_data(share_id, price_data)
   resp = jsonify(success=True)
   return resp
+
+  # db_prices = [SharePrice(ShareId=share_id, Date=price['Date'], Price=round(price['Close'],2)) for price in pricesList]
+  # db.session.add_all(db_prices)
+  # db.session.commit()
 
 
 
