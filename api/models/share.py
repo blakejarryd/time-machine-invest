@@ -17,4 +17,5 @@ class SharePrice(db.Model):
   ShareId = db.Column(db.Integer, db.ForeignKey('Share.Id'))
   Date = db.Column(db.DateTime)
   Price = db.Column(db.Numeric(10, 2))
+  __table_args__ = (db.UniqueConstraint('ShareId', 'Date', name='_share_date_uc'),)
 
