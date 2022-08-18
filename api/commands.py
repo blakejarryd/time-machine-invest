@@ -4,7 +4,7 @@ from flask.cli import with_appcontext
 from .seed.share_seed import shares
 
 from .db import db
-from .models.share import Share, SharePrice, ShareInfo
+from .models.share import Share, SharePrice
 
 
 @click.command(name='create_db')
