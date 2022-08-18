@@ -3,10 +3,23 @@ from ..models.share import Share, SharePrice
 from ..schemas.share_shemas import share_schema
 from ..db import db
 
-def get_share_id(ticker):
+def get_share_db(ticker):
   share = Share.query.filter_by(Ticker=ticker).first()
   if share:
-    return share.Id
+    return share
+
+def get_info_yf(ticker):
+  yfinance_ticker = ticker + ".AX"
+  share = yf.Ticker(yfinance_ticker)
+  info = share.info
+  return info
+
+def load_info_data(share, info):
+  share.Sector = info['sector']
+  share.Employees = info['fullTimeEmployees']
+  share.Summary = info['longBusinessSummary']
+  db.session.add(share)
+  db.session.commit()
 
 # To do - get start date based of existing share price data
 def calculate_start_date(ticker, args):
