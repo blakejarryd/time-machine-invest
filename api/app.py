@@ -44,15 +44,20 @@ def get_share_info(ticker):
 
 @app.route('/load/prices/<ticker>')
 def get_share_price(ticker):
+  start = '2022-07-01'
+  if request.args:
+    args = request.args.to_dict()
+    from_date = args['from']
+    start = from_date
   yfinance_ticker = ticker + ".AX"
   share = yf.Ticker(yfinance_ticker)
-  db_share = Share.query.filter_by(Ticker=ticker).first()
-  prices = share.history()
+  prices = share.history(start=start)
   prices.reset_index(inplace=True)
   prices['Date'] = prices['Date'].dt.strftime('%Y-%m-%d')
   prices.drop(['Dividends','Stock Splits', 'Open', 'High', 'Low', 'Volume'], inplace=True, axis=1)
   pricesList = prices.to_dict(orient='records')
-  db_prices = [SharePrice(ShareId=db_share.Id, Date=price['Date'], Price=price['Close']) for price in pricesList]
+  db_share = Share.query.filter_by(Ticker=ticker).first()
+  db_prices = [SharePrice(ShareId=db_share.Id, Date=price['Date'], Price=round(price['Close'],2)) for price in pricesList]
   db.session.add_all(db_prices)
   db.session.commit()
   resp = jsonify(success=True)

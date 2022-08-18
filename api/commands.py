@@ -27,7 +27,6 @@ def reset_db():
 @with_appcontext
 def seed_db():
     share_data = [Share(Ticker=share,Name=shares[share]) for share in shares]
-    
     db.session.add_all(share_data)
     db.session.commit()
 

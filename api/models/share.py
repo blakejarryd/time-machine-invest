@@ -16,5 +16,5 @@ class SharePrice(db.Model):
   Id = db.Column(db.Integer, primary_key=True)
   ShareId = db.Column(db.Integer, db.ForeignKey('Share.Id'))
   Date = db.Column(db.DateTime)
-  Price = db.Column(db.Float(precision=2))
+  Price = db.Column(db.Numeric(10, 2))
 
