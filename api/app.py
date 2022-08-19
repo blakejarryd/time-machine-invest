@@ -19,6 +19,9 @@ from .controllers.share_controller import (
 from .controllers.user_controller import (
   create_user
 )
+from .controllers.portfolio_controller import (
+  create_portfolio
+)
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://invest_app:invest_app@localhost/timemachineinvest'
@@ -76,6 +79,21 @@ def load_share_prices(ticker):
 ########################################################################
 @app.route('/user', methods=['POST'])
 def new_user():
-  create_user(request.json)
-  resp = jsonify("user created")
-  return resp
+  try:
+    create_user(request.json)
+  except:
+    return jsonify("something went wrong")
+  return jsonify("user created")
+
+########################################################################
+# PORTFOLIO ROUTES
+########################################################################
+@app.route('/portfolio', methods=['POST'])
+def new_portfolio():
+  try:
+    create_portfolio(request.json)
+  except Exception as e:
+    print(e)
+    return jsonify("something went wrong")
+  return jsonify("portfolio created")
+
