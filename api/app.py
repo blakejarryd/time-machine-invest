@@ -20,7 +20,8 @@ from .controllers.user_controller import (
   create_user
 )
 from .controllers.portfolio_controller import (
-  create_portfolio
+  create_portfolio,
+  create_portfolio_buy
 )
 
 app = Flask(__name__)
@@ -97,3 +98,11 @@ def new_portfolio():
     return jsonify("something went wrong")
   return jsonify("portfolio created")
 
+@app.route('/portfolio/buy', methods=['POST'])
+def new_portfolio_buy():
+  try:
+    create_portfolio_buy(request.json)
+  except Exception as e:
+    print(e)
+    return jsonify("something went wrong")
+  return jsonify("portfolio buy created")
