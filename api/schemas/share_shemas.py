@@ -14,4 +14,4 @@ class SharePriceSchema(ma.SQLAlchemyAutoSchema):
     include_fk= True
 
 share_schema = ShareSchema(many=True)
-share_price_schema = SharePriceSchema()
+share_price_schema = SharePriceSchema(many=True)

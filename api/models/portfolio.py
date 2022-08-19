@@ -13,5 +13,5 @@ class PortfolioShares(db.Model):
   ShareId = db.Column(db.Integer, db.ForeignKey('Share.Id'))
   Qty = db.Column(db.Integer)
   AquiredDate = db.Column(db.DateTime)
-  Cost = db.Column(db.Float(precision=2))
+  Cost = db.Column(db.Numeric(10, 2))
   
