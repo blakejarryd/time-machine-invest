@@ -1,7 +1,6 @@
 import yfinance as yf
-from ..models.share import Share, SharePrice
-from ..schemas.share_shemas import share_schema
 from ..db import db
+from ..models.share import Share, SharePrice
 
 def get_share_db(ticker):
   share = Share.query.filter_by(Ticker=ticker).first()
