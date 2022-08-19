@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import { FC, useState, useEffect } from 'react'
 import './App.css';
+import Header from './components/Header';
+ 
+interface Share {
+  Employees: number;
+  Id: number;
+  Name: string;
+  Sector: string;
+  Summary: string;
+  Ticker: string
+}
 
-function App() {
+const App: FC = () => {
+  const [shares, setShares] = useState<Share[]>([])
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:4999/shares')
+    .then(response => response.json())
+    .then(shares => setShares(shares))  
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {shares && <Header shares={shares}/>}
     </div>
   );
 }
-
 export default App;

@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, make_response
+from flask_cors import CORS
 import yfinance as yf
 from .commands import commands
 from .db import db
@@ -25,6 +26,7 @@ from .controllers.portfolio_controller import (
 )
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://invest_app:invest_app@localhost/timemachineinvest'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
