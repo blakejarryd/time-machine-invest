@@ -45,7 +45,7 @@ session = db.session()
 ########################################################################
 @app.route('/shares')
 def shares():
-  shares = Share.query.all()
+  shares = Share.query.limit(10)
   return share_schema.dump(shares)
 
 @app.route('/shares/<ticker>')

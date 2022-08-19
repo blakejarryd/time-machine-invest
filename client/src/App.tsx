@@ -1,28 +1,16 @@
 import { FC, useState, useEffect } from 'react'
+import { Routes, Route, Link} from "react-router-dom";
 import './App.css';
-import Header from './components/Header';
+import TopShares from './components/TopShares';
+import ShareDetails from './components/ShareDetails';
  
-interface Share {
-  Employees: number;
-  Id: number;
-  Name: string;
-  Sector: string;
-  Summary: string;
-  Ticker: string
-}
-
 const App: FC = () => {
-  const [shares, setShares] = useState<Share[]>([])
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:4999/shares')
-    .then(response => response.json())
-    .then(shares => setShares(shares))  
-  }, [])
-
   return (
     <div className="App">
-      {shares && <Header shares={shares}/>}
+      <Routes>
+      <Route path="/" element = {<TopShares />} />
+      <Route path="/:ticker" element = {<ShareDetails />} />
+      </Routes>
     </div>
   );
 }
