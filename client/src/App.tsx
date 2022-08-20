@@ -16,14 +16,21 @@ const App = () => {
     .then(shares => {setShares(shares)})  
   }, [])
 
+  useEffect(() => {
+    setFilteredShares(shares)
+  }, [shares])
+
+
   const filterShares = (input: string) => {
     console.log(input)
     let shareList = shares
     let filteredShares = shareList.filter((share) => {
-      return share.Ticker?.includes(input)
+      return (
+      share.Ticker?.toLowerCase().includes(input.toLowerCase()) 
+      || 
+      share.Name?.toLowerCase().includes(input.toLowerCase())
+      )
     })
-    console.log(filteredShares)
-    // let shortenedList = shareList.slice(0,10)
     setFilteredShares(filteredShares)
   }
 
