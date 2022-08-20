@@ -2,10 +2,12 @@ import { FC, useState, useEffect } from 'react'
 import { Price } from '../models/models'
 import { useParams } from "react-router-dom";
 
-const SharePrices: FC = () => {
-  const [prices, setShare] = useState<Price[]>([])
+interface SharePricesProps {
+  ticker: string
+}
 
-  let { ticker } =  useParams()
+const SharePrices = ({ ticker }: SharePricesProps) => {
+  const [prices, setShare] = useState<Price[]>([])
 
   const fetchPriceInfo: Function = () => {
     fetch(`http://127.0.0.1:4999/prices/${ticker}`)

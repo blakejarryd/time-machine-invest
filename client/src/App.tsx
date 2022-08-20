@@ -1,50 +1,26 @@
 import { FC, useState, useEffect } from 'react'
 import { Routes, Route, Link} from "react-router-dom";
 import './App.css';
-import SharesList from './components/SharesList';
-import ShareDetails from './components/ShareDetails';
+import Nav from './components/Nav';
 import Search from './components/Search'
+import SharesList from './components/SharesList';
+import CompanyDetails from './components/CompanyDetails';
 import { Share, Shares } from './models/models'
+import SearchList from './components/SearchList';
  
 const App = () => {
-  const [shares, setShares] = useState<Share[]>([])
-  const [filteredShares, setFilteredShares] = useState<Share[]>([])
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:4999/shares')
-    .then(response => response.json())
-    .then(shares => {setShares(shares)})  
-  }, [])
-
-  useEffect(() => {
-    setFilteredShares(shares)
-  }, [shares])
-
-
-  const filterShares = (input: string) => {
-    console.log(input)
-    let shareList = shares
-    let filteredShares = shareList.filter((share) => {
-      return (
-      share.Ticker?.toLowerCase().includes(input.toLowerCase()) 
-      || 
-      share.Name?.toLowerCase().includes(input.toLowerCase())
-      )
-    })
-    setFilteredShares(filteredShares)
-  }
-
-
+  const [selectedComany, setTicker] = useState('CBA')
+  
   return (
     <div className="App">
       <Routes>
       <Route path="/" element = {
         <>
-          <Search filterShares = {filterShares} />
-          {shares && <SharesList {...filteredShares}/>}
+          <Nav />
+          <SearchList setTicker={setTicker}/>
+          <CompanyDetails ticker={selectedComany}/>
         </>
       } />
-      <Route path="/:ticker" element = {<ShareDetails />} />
       </Routes>
     </div>
   );
