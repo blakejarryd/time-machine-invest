@@ -45,9 +45,8 @@ session = db.session()
 ########################################################################
 @app.route('/shares')
 def shares():
-  shares = Share.query.limit(10)
+  shares = Share.query.all()
   return share_schema.dump(shares)
-
 @app.route('/shares/<ticker>')
 def share_info(ticker):
   share = Share.query.filter_by(Ticker=ticker)
@@ -58,8 +57,7 @@ def share_info(ticker):
 ########################################################################
 @app.route('/prices/<ticker>')
 def get_prices(ticker):
-  prices = session.query(SharePrice).join(Share).filter(Share.Ticker==ticker).all()
-  print(prices)
+  prices = session.query(SharePrice).join(Share).filter(Share.Ticker==ticker).order_by(SharePrice.Date.desc()).limit(30)
   return share_price_schema.dump(prices)
 
 ########################################################################
