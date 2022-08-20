@@ -17,12 +17,6 @@ const Search = ({filterShares}: SearchProps) => {
     filterShares(input)
   }, [input])
 
-  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault()
-    
-    setInput('')
-  }
-
   return (
     <>
       <h1>Search</h1>
