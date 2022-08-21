@@ -19,7 +19,6 @@ const Search = ({filterShares}: SearchProps) => {
 
   return (
     <>
-      <h1>Search</h1>
       <form>
         <label>Share Search</label>
         <input type="text" value={input} onChange={handleChange}></input>

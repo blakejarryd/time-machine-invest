@@ -19,10 +19,12 @@ nav li {
   margin: 15px;
 }
 
-.SearchList {
+.SearchList, .CompanyDetails, .PortfolioList, .Portfolio {
   margin: 40px;
 }
 
-.CompanyDetails {
-  margin: 40px
+.shareListItem {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
 }

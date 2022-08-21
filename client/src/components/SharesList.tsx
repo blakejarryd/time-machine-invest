@@ -3,18 +3,30 @@ import { Share, Shares } from '../models/models'
 import { Link } from "react-router-dom";
 
 interface ShareListProps {
+  mode: string
   shares: Share[]
   setTicker: React.Dispatch<React.SetStateAction<any>>
 }
 
-const SharesList= ({ shares, setTicker}: ShareListProps) => {
-  console.log(typeof(setTicker))
+const SharesList= ({ mode, shares, setTicker}: ShareListProps) => {
+
   let shareList = shares.map((share) => {
-    return (
-      <div onClick={()=>setTicker(share.Ticker)} >
-        <p>{share.Ticker} {share.Name}</p>
-      </div>
-    )
+    if (mode == "research") {
+      return (
+        <div className="shareListItem" onClick={()=>setTicker(share.Ticker)} >
+          <span>{share.Ticker} {share.Name}</span>
+          <button>Details</button>
+        </div>
+      )
+    } else {
+      return (
+        <div className="shareListItem" onClick={()=>setTicker(share.Ticker)} >
+          <span>{share.Ticker} {share.Name}</span>
+          <button>Add</button>
+        </div>
+      )
+    }
+  
   })
 
   return (

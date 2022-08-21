@@ -4,10 +4,12 @@ import SharesList from './SharesList';
 import { Share, Shares } from '../models/models'
 
 interface SearchListProps {
+  mode: string
   setTicker: (input: string) => void
 }
 
-const SearchList = ({ setTicker }: SearchListProps) => {
+const SearchList = ({ mode, setTicker }: SearchListProps) => {
+  const [currentMode, setCurrentMode] = useState(mode)
   const [shares, setShares] = useState<Share[]>([])
   const [filteredShares, setFilteredShares] = useState<Share[]>([])
 
@@ -18,13 +20,13 @@ const SearchList = ({ setTicker }: SearchListProps) => {
   }, [])
 
   useEffect(() => {
-    setFilteredShares(shares)
+    let trimmedShares = shares.slice(0,20)
+    setFilteredShares(trimmedShares)
   }, [shares])
 
 
 
   const filterShares = (input: string) => {
-    console.log(input)
     let shareList = shares
     let filteredShares = shareList.filter((share) => {
       return (
@@ -33,13 +35,14 @@ const SearchList = ({ setTicker }: SearchListProps) => {
       share.Name?.toLowerCase().includes(input.toLowerCase())
       )
     })
-    setFilteredShares(filteredShares)
+    let trimmedFilteredShares = filteredShares.slice(0,20)
+    setFilteredShares(trimmedFilteredShares)
   }
 
   return (
     <div className="SearchList">
       <Search filterShares = {filterShares} />
-      {shares && <SharesList shares = {filteredShares} setTicker={setTicker}/>}
+      {shares && <SharesList mode={mode} shares={filteredShares} setTicker={setTicker}/>}
     </div>
   )
 }
