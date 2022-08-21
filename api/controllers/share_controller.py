@@ -11,12 +11,13 @@ def get_info_yf(ticker):
   yfinance_ticker = ticker + ".AX"
   share = yf.Ticker(yfinance_ticker)
   info = share.info
+  print(info)
   return info
 
 def load_share_info(share, info):
-  share.Sector = info['sector']
-  share.Employees = info['fullTimeEmployees']
-  share.Summary = info['longBusinessSummary']
+  share.Sector = info.get('sector')
+  share.Employees = info.get('fullTimeEmployees')
+  share.Summary = info.get('longBusinessSummary')
   db.session.add(share)
   db.session.commit()
 
