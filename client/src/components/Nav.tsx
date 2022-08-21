@@ -1,9 +1,27 @@
+import { NavLink } from "react-router-dom";
+
 const Nav = () => {
   return (
-    <div className="Nav">
-      NAV
-    </div>
-  )
+    <nav>
+      <ul>
+        <li>
+          <NavLink to="/">
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/research">
+            Research
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/portfolio">
+            Portfolio
+          </NavLink>
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
 export default Nav

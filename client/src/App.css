@@ -4,10 +4,19 @@
   grid-template-columns: 1fr 2fr;
 }
 
-.Nav {
+nav {
   grid-column: span 2;
   height: 80px;
   background-color: aliceblue;
+}
+
+nav ul {
+  display: flex;
+}
+
+nav li {
+  display: inline;
+  margin: 15px;
 }
 
 .SearchList {

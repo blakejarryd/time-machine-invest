@@ -11,7 +11,6 @@ def get_info_yf(ticker):
   yfinance_ticker = ticker + ".AX"
   share = yf.Ticker(yfinance_ticker)
   info = share.info
-  print(info)
   return info
 
 def load_share_info(share, info):
