@@ -8,11 +8,16 @@ export interface Shares {
 }[]
 
 export interface Share {
-  Employees?: number;
   Id?: number;
   Name?: string;
   Sector?: string;
+  Industry?: string;
+  Employees?: number;
   Summary?: string;
+  Website?: string;
+  LogoUrl?: string;
+  DividendYield?: number;
+  MarketCap?: number;
   Ticker?: string
 }
 

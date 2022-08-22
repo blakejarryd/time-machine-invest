@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from 'react'
 import { Share } from '../models/models'
 import { useParams } from "react-router-dom";
 import SharePrices from './SharePrices';
-import { Card, CardHeader, CardContent, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material'
+import { Card, CardHeader, CardContent, Collapse, Accordion, AccordionSummary, AccordionDetails, Typography, Divider } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface CompanyDetailsProps {
@@ -23,25 +23,42 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
   }, [ticker])
  
   return (
-      <Card elevation={3}>
-        <CardHeader title={share.Name} />
-        <CardContent>
-        <Typography>Company Information</Typography>
-        <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+    <Card elevation={3} className='CompanyDetails'>
+      <CardHeader 
+        title={share.Name} 
+        action={<img src={share.LogoUrl}></img>}
         >
-           <Typography>Company Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        <Typography>{share.Summary}</Typography>
-        </AccordionDetails>
-        </Accordion>
+      </CardHeader>
+        <CardContent>
+          <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+            Summary
+          </Typography>
+          <Typography>Sector: {share.Sector}</Typography>
+          <Typography>Industry: {share.Industry}</Typography>
+          <Typography>Employees: {share.Employees}</Typography>
+          <Typography>Website: {share.Website}</Typography>
+          <Accordion elevation={0} >
+            <AccordionSummary 
+              sx={{pl:0 , width: '40%'}}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              >
+              <Typography>Company Information</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>{share.Summary}</Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Divider />
+          <Typography sx={{ mt: 2, fontSize: 16 }} color="text.secondary" gutterBottom>
+            Financials
+          </Typography>
+          <Typography>Market Cap: {share.MarketCap}</Typography>
+          <Typography>Dividend Yield: {share.DividendYield}</Typography>
+          <SharePrices ticker={ticker}/>
         </CardContent>
-        <SharePrices ticker={ticker}/>
-      </Card>
+    </Card>
   )
 }
 

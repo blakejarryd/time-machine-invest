@@ -6,10 +6,14 @@ class Share(db.Model):
   Ticker = db.Column(db.String(10), nullable=False, unique=True)
   Name = db.Column(db.String(150), nullable=False, unique=True)
   Sector = db.Column(db.String(80))
+  Industry = db.Column(db.String(80))
   Employees = db.Column(db.Integer)
   Summary = db.Column(db.Text)
-  # LogoUrl = db.Column(db.String)
-  # DividendYield = db.db.Column(db.Float(precision=4))
+  Website = db.Column(db.Text)
+  LogoUrl = db.Column(db.Text)
+  DividendYield = db.Column(db.Numeric(10, 4))
+  MarketCap = db.Column(db.BigInteger)
+
 
 class SharePrice(db.Model):
   __tablename__ = 'SharePrice'
