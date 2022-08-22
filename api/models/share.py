@@ -19,7 +19,7 @@ class SharePrice(db.Model):
   __tablename__ = 'SharePrice'
   Id = db.Column(db.Integer, primary_key=True)
   ShareId = db.Column(db.Integer, db.ForeignKey('Share.Id'))
-  Date = db.Column(db.DateTime)
+  Date = db.Column(db.Date)
   Price = db.Column(db.Numeric(10, 2))
   __table_args__ = (db.UniqueConstraint('ShareId', 'Date', name='_share_date_uc'),)
 
