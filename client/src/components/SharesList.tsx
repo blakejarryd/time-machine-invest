@@ -14,14 +14,14 @@ const SharesList= ({ mode, shares, setTicker}: ShareListProps) => {
   let shareList = shares.map((share) => {
     if (mode == "research") {
       return (
-        <ListItem button onClick={()=>setTicker(share.Ticker)}>
-          <Chip label={share.Ticker} />
+        <ListItem sx={{pl:0}} button onClick={()=>setTicker(share.Ticker)}>
+          <Chip sx={{mr:2}} label={share.Ticker} />
           <ListItemText primary={share.Name} />
         </ListItem>
       )
     } else {
       return (
-        <ListItem button onClick={()=>setTicker(share.Ticker)}>
+        <ListItem sx={{pl:0}} button onClick={()=>setTicker(share.Ticker)}>
           <Chip label={share.Ticker} />
           <ListItemText primary={share.Name} />
         </ListItem>

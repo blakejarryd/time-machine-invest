@@ -24,7 +24,7 @@ const Search = ({filterShares}: SearchProps) => {
     <>
       <TextField
         id="input-with-icon-textfield"
-        label="Company Search"
+        label="Company Filter"
         onChange={handleChange}
         InputProps={{
           startAdornment: (

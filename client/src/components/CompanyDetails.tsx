@@ -39,7 +39,7 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
         <Typography>Website: {share.Website}</Typography>
         <Accordion elevation={0} >
           <AccordionSummary 
-            sx={{pl:0 , width: '40%'}}
+            sx={{pl:0 , width: '30%'}}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
