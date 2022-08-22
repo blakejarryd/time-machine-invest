@@ -2,6 +2,8 @@ import { FC, useState, useEffect } from 'react'
 import { Share } from '../models/models'
 import { useParams } from "react-router-dom";
 import SharePrices from './SharePrices';
+import { Card, CardHeader, CardContent, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface CompanyDetailsProps {
   ticker: string
@@ -21,11 +23,25 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
   }, [ticker])
  
   return (
-    <div className="CompanyDetails">
-      <h1>{share.Ticker}</h1>
-      <p>{share.Summary}</p>
-      <SharePrices ticker={ticker}/>
-    </div>
+      <Card elevation={3}>
+        <CardHeader title={share.Name} />
+        <CardContent>
+        <Typography>Company Information</Typography>
+        <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+           <Typography>Company Information</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Typography>{share.Summary}</Typography>
+        </AccordionDetails>
+        </Accordion>
+        </CardContent>
+        <SharePrices ticker={ticker}/>
+      </Card>
   )
 }
 

@@ -10,6 +10,9 @@ import { Share, Shares } from './models/models'
 import SearchList from './components/SearchList';
 import PortfolioList from './components/PortfolioList';
 import Portfolio from './components/Portfolio';
+import ResponsiveAppBar from './components/Nav';
+import Grid2 from '@mui/material/Unstable_Grid2';
+import Container from '@mui/material/Container'
  
 const App = () => {
   const [selectedComany, setTicker] = useState('CBA')
@@ -34,20 +37,28 @@ const App = () => {
       <Routes>
       <Route path="/" element = { 
         <>
-          <Nav />
+          <ResponsiveAppBar />
           <Home />
         </>
       } />
       <Route path="/research" element = {
         <>
-          <Nav />
-          <SearchList mode={'research'} setTicker={setTicker}/>
-          <CompanyDetails ticker={selectedComany}/>
+          <ResponsiveAppBar />
+          <Container maxWidth='xl' >
+            <Grid2 container spacing={2}>
+              <Grid2 xs={12} md={4}>
+                <SearchList mode={'research'} setTicker={setTicker}/>
+              </Grid2>
+              <Grid2 xs={12} md={8}>
+              <CompanyDetails ticker={selectedComany}/>
+              </Grid2>
+            </Grid2>
+          </Container>
         </>
       } />
       <Route path="/portfolio" element = {
         <>
-          <Nav />
+          <ResponsiveAppBar />
           <PortfolioList addPortfolio={addPortfolio}/>
           <Portfolio mode={'portfolio'} setTicker={setTicker}/>
         </>

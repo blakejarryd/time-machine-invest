@@ -1,7 +1,16 @@
-.App {
+
+.SearchList, .CompanyDetails, .PortfolioList, .Portfolio {
+  margin: 40px;
+}
+
+/* .App {
   display: grid;
   grid-template-rows: auto 1fr;
   grid-template-columns: 1fr 2fr;
+}
+
+header {
+  grid-column: span 2;
 }
 
 nav {
@@ -27,4 +36,4 @@ nav li {
   display: flex;
   justify-content: space-between;
   margin: 10px;
-}
+} */

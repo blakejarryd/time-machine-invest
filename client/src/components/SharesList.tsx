@@ -1,6 +1,7 @@
 import { FC, useState, useEffect } from 'react'
 import { Share, Shares } from '../models/models'
 import { Link } from "react-router-dom";
+import { Divider, List, ListItem, ListItemText, Chip} from '@mui/material'
 
 interface ShareListProps {
   mode: string
@@ -13,17 +14,17 @@ const SharesList= ({ mode, shares, setTicker}: ShareListProps) => {
   let shareList = shares.map((share) => {
     if (mode == "research") {
       return (
-        <div className="shareListItem" onClick={()=>setTicker(share.Ticker)} >
-          <span>{share.Ticker} {share.Name}</span>
-          <button>Details</button>
-        </div>
+        <ListItem button onClick={()=>setTicker(share.Ticker)}>
+          <Chip label={share.Ticker} />
+          <ListItemText primary={share.Name} />
+        </ListItem>
       )
     } else {
       return (
-        <div className="shareListItem" onClick={()=>setTicker(share.Ticker)} >
-          <span>{share.Ticker} {share.Name}</span>
-          <button>Add</button>
-        </div>
+        <ListItem button onClick={()=>setTicker(share.Ticker)}>
+          <Chip label={share.Ticker} />
+          <ListItemText primary={share.Name} />
+        </ListItem>
       )
     }
   
@@ -31,7 +32,9 @@ const SharesList= ({ mode, shares, setTicker}: ShareListProps) => {
 
   return (
     <>
+      <List component="nav" aria-label="mailbox folders">
       {shareList}
+      </List>
     </>
   )
 }
