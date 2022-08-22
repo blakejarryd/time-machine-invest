@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from 'react'
 import { Share } from '../models/models'
 import { useParams } from "react-router-dom";
 import SharePrices from './SharePrices';
-import { Card, CardHeader, CardContent, Collapse, Accordion, AccordionSummary, AccordionDetails, Typography, Divider } from '@mui/material'
+import { Card, CardHeader, CardContent, Accordion, AccordionSummary, AccordionDetails, Typography, Divider } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface CompanyDetailsProps {

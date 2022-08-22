@@ -2,6 +2,7 @@ import yfinance as yf
 from sqlalchemy import exc
 from ..db import db
 from ..models.portfolio import Portfolio, PortfolioShares
+from ..schemas.portfolio_schemas import portfolio_schema
 
 #hardcoded userID for now
 def create_portfolio(request):
@@ -20,7 +21,3 @@ def create_portfolio_buy(request):
   db.session.add(new_buy)
   db.session.commit()
 
-  #code to get alchemy error-wrap around db commit
-  # try:
-  # except exc.SQLAlchemyError:
-  # print("DB exception")

@@ -6,6 +6,7 @@ from .db import db
 from .ma import ma
 from .models.share import Share, SharePrice
 from .models.user import User
+from .models.portfolio import Portfolio
 from .schemas.share_shemas import share_schema, share_price_schema
 from .schemas.portfolio_schemas import portfolio_schema
 from .schemas.user_schemas import user_schema
@@ -118,3 +119,11 @@ def new_portfolio_buy():
     print(e)
     return jsonify("something went wrong")
   return jsonify("portfolio buy created")
+
+@app.route('/portfolio/<userId>')
+def user_portfolios(userId):
+  portfolios = Portfolio.query.filter_by(UserId=userId).all()
+  print(portfolios)
+  print(portfolio_schema)
+  print(portfolio_schema.dump(portfolios))
+  return portfolio_schema.dump(portfolios)

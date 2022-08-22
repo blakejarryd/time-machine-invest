@@ -14,5 +14,5 @@ class PortfolioSharesSchema(ma.SQLAlchemyAutoSchema):
     load_instance = True
     include_fk= True
 
-portfolio_schema = PortfolioSchema()
+portfolio_schema = PortfolioSchema(many=True)
 portfolio_shares_schema = PortfolioShares()

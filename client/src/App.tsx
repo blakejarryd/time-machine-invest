@@ -17,16 +17,6 @@ import Container from '@mui/material/Container'
 const App = () => {
   const [selectedComany, setTicker] = useState('CBA')
 
-  const addPortfolio = async () => {
-    const res = await fetch('http://127.0.0.1:4999/portfolio', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ UserId: 1, Name: "New Portfolio"})
-    })
-  }
-
   // const addBuy = async () => {
   //   const res = await fetch('http://127.0.0.1:4999/portfolio/buy'
   //     method:
@@ -60,8 +50,16 @@ const App = () => {
       <Route path="/portfolio" element = {
         <>
           <ResponsiveAppBar />
-          <PortfolioList addPortfolio={addPortfolio}/>
-          <Portfolio mode={'portfolio'} setTicker={setTicker}/>
+          <Container maxWidth='xl' >
+            <Grid2 container spacing={2}>
+              <Grid2 xs={12} md={4}>
+                <PortfolioList userId={1}/>
+              </Grid2>
+              <Grid2 xs={12} md={8}>
+                <Portfolio mode={'portfolio'} setTicker={setTicker}/>
+              </Grid2>
+            </Grid2>
+          </Container>
         </>
       } />
       </Routes>
