@@ -1,5 +1,5 @@
 from ..ma import ma
-from marshmallow import fields
+from marshmallow import Schema, fields
 
 
 from ..models.portfolio import Portfolio, PortfolioShares
@@ -13,9 +13,10 @@ class PortfolioSchema(ma.SQLAlchemyAutoSchema):
     include_fk= True
 
 class PortfolioSharesSchema(ma.SQLAlchemyAutoSchema):
-  Share = fields.Nested('share_schema', many=True)
+  Share = fields.Nested(share_schema, many=True)
   class Meta:
     model = PortfolioShares
+    fields = ('AquiredDate', 'Cost', 'Id', 'PortfolioId', 'Qty', 'ShareId', 'Ticker')
     load_instance = True
     include_fk= True
   

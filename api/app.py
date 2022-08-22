@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 import yfinance as yf
@@ -127,9 +128,12 @@ def user_portfolios(userId):
 
 @app.route('/portfolio/shares/<portfolioId>')
 def portfolio_shares(portfolioId):
-  print(portfolioId)
-  portfolioShares = session.query(PortfolioShares).join(Share).filter(PortfolioShares.PortfolioId==portfolioId).all()
-  print(portfolio_shares_schema.dump(portfolioShares))
-  return portfolio_shares_schema.dump(portfolioShares)
+  query = session.query(PortfolioShares, Share).join(Share, PortfolioShares.ShareId==Share.Id).with_entities(PortfolioShares.Id, PortfolioShares.ShareId, Share.Ticker, PortfolioShares.AquiredDate, PortfolioShares.Qty, PortfolioShares.Cost).all()
+  print(query)
+  data = []
+  for row in query:
+    data.append(dict(row))
+  print(data)
+  return jsonify(data)
 
 

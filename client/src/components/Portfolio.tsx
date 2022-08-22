@@ -46,18 +46,15 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
     })
   }
 
-  function createData(ShareId:number,AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number) {
-    return { ShareId, AquiredDate, Qty, Cost, Value, Gain };
+  function createData(Ticker:string,AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number) {
+    return { Ticker, AquiredDate, Qty, Cost, Value, Gain };
   }
-
-  let row = createData(35, '2022/07/01',50,50000,50000,0)
-  console.log(row)
 
   useEffect(() => {
     let shareData = [...portfolioShares]
     let rows = shareData.map((data) => {
      return createData(
-        data.ShareId,
+        data.Ticker,
         data.AquiredDate,
         data.Qty,
         data.Cost,
@@ -78,12 +75,12 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>ShareId</TableCell>
-            <TableCell align="right">AquiredDate</TableCell>
-            <TableCell align="right">Qty</TableCell>
-            <TableCell align="right">Cost</TableCell>
-            <TableCell align="right">Value</TableCell>
-            <TableCell align="right">Gain/Loss</TableCell>
+            <TableCell>Ticker</TableCell>
+            <TableCell>AquiredDate</TableCell>
+            <TableCell>Qty</TableCell>
+            <TableCell>Cost</TableCell>
+            <TableCell>Value</TableCell>
+            <TableCell>Gain/Loss</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -92,12 +89,12 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{row.ShareId}</TableCell>
-              <TableCell align="right">{row.AquiredDate}</TableCell>
-              <TableCell align="right">{row.Qty}</TableCell>
-              <TableCell align="right">{row.Cost}</TableCell>
-              <TableCell align="right">{row.Value}</TableCell>
-              <TableCell align="right">{row.Gain}</TableCell>
+              <TableCell>{row.Ticker}</TableCell>
+              <TableCell>{row.AquiredDate}</TableCell>
+              <TableCell>{row.Qty}</TableCell>
+              <TableCell>{row.Cost}</TableCell>
+              <TableCell>{row.Value}</TableCell>
+              <TableCell>{row.Gain}</TableCell>
             </TableRow>
           ))}
         </TableBody>
