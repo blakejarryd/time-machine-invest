@@ -31,7 +31,8 @@ const App = () => {
   //   const res = await fetch('http://127.0.0.1:4999/portfolio/buy'
   //     method:
   // }
-  
+
+
   return (
     <div className="App">
       <Routes>

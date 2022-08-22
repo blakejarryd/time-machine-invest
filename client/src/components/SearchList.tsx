@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Search from './Search'
 import SharesList from './SharesList';
 import { Share, Shares } from '../models/models'
+import { Paper } from '@mui/material'
 
 interface SearchListProps {
   mode: string
@@ -20,7 +21,7 @@ const SearchList = ({ mode, setTicker }: SearchListProps) => {
   }, [])
 
   useEffect(() => {
-    let trimmedShares = shares.slice(0,20)
+    let trimmedShares = shares.slice(0,10)
     setFilteredShares(trimmedShares)
   }, [shares])
 
@@ -35,15 +36,15 @@ const SearchList = ({ mode, setTicker }: SearchListProps) => {
       share.Name?.toLowerCase().includes(input.toLowerCase())
       )
     })
-    let trimmedFilteredShares = filteredShares.slice(0,20)
+    let trimmedFilteredShares = filteredShares.slice(0,10)
     setFilteredShares(trimmedFilteredShares)
   }
 
   return (
-    <div className="SearchList">
+    <Paper sx={{p:3}} elevation={3} className="SearchList">
       <Search filterShares = {filterShares} />
       {shares && <SharesList mode={mode} shares={filteredShares} setTicker={setTicker}/>}
-    </div>
+    </Paper>
   )
 }
 
