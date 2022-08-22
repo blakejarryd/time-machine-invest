@@ -4,9 +4,10 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 
 interface PortfolioListProps {
   userId: number
+  setSelectedPortfolio: React.Dispatch<React.SetStateAction<any>>
 }
 
-const PortfolioList = ({ userId }:PortfolioListProps) => {
+const PortfolioList = ({ userId, setSelectedPortfolio }:PortfolioListProps) => {
   const [addNew, setAddNew] = useState(false)
   const [addNewInput, setAddNewInput] = useState('')
   const [portfolios, setPortfolios] = useState([])
@@ -21,15 +22,14 @@ const PortfolioList = ({ userId }:PortfolioListProps) => {
 
   let portfolioList = [...portfolios]
   let portfolioListItems = portfolioList.map((portfolio) => {
+    console.log(portfolio)
     return (
-      <ListItem button sx={{pl:0}} >
+      <ListItem button sx={{pl:0}} onClick={()=>setSelectedPortfolio(portfolio['Id'])}>
         <ListItemText primary={portfolio['Name']} />
       </ListItem>
     )
   })
   
-
-
   const showInput = () => {
     setAddNew(true)
   }

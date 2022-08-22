@@ -14,4 +14,4 @@ class PortfolioShares(db.Model):
   Qty = db.Column(db.Integer)
   AquiredDate = db.Column(db.DateTime)
   Cost = db.Column(db.Numeric(10, 2))
-  
+  Ticker = db.relationship('Share')

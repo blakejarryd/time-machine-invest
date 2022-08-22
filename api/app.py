@@ -6,9 +6,9 @@ from .db import db
 from .ma import ma
 from .models.share import Share, SharePrice
 from .models.user import User
-from .models.portfolio import Portfolio
+from .models.portfolio import Portfolio, PortfolioShares
 from .schemas.share_shemas import share_schema, share_price_schema
-from .schemas.portfolio_schemas import portfolio_schema
+from .schemas.portfolio_schemas import portfolio_schema, portfolio_shares_schema
 from .schemas.user_schemas import user_schema
 from .controllers.share_controller import (
   calculate_start_date, 
@@ -46,7 +46,7 @@ session = db.session()
 ########################################################################
 @app.route('/shares')
 def shares():
-  shares = Share.query.with_entities(Share.Ticker, Share.Name).order_by(Share.MarketCap.asc())
+  shares = Share.query.with_entities(Share.Id, Share.Ticker, Share.Name).order_by(Share.MarketCap.desc().nullslast())
   return share_schema.dump(shares)
 @app.route('/shares/<ticker>')
 def share_info(ticker):
@@ -123,7 +123,13 @@ def new_portfolio_buy():
 @app.route('/portfolio/<userId>')
 def user_portfolios(userId):
   portfolios = Portfolio.query.filter_by(UserId=userId).all()
-  print(portfolios)
-  print(portfolio_schema)
-  print(portfolio_schema.dump(portfolios))
   return portfolio_schema.dump(portfolios)
+
+@app.route('/portfolio/shares/<portfolioId>')
+def portfolio_shares(portfolioId):
+  print(portfolioId)
+  portfolioShares = session.query(PortfolioShares).join(Share).filter(PortfolioShares.PortfolioId==portfolioId).all()
+  print(portfolio_shares_schema.dump(portfolioShares))
+  return portfolio_shares_schema.dump(portfolioShares)
+
+
