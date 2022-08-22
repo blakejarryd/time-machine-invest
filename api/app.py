@@ -128,7 +128,7 @@ def user_portfolios(userId):
 
 @app.route('/portfolio/shares/<portfolioId>')
 def portfolio_shares(portfolioId):
-  query = session.query(PortfolioShares, Share).join(Share, PortfolioShares.ShareId==Share.Id).with_entities(PortfolioShares.Id, PortfolioShares.ShareId, Share.Ticker, PortfolioShares.AquiredDate, PortfolioShares.Qty, PortfolioShares.Cost).all()
+  query = session.query(PortfolioShares, Share).join(Share, PortfolioShares.ShareId==Share.Id).filter(PortfolioShares.PortfolioId==portfolioId).with_entities(PortfolioShares.Id, PortfolioShares.ShareId, Share.Ticker, Share.Name, PortfolioShares.AquiredDate, PortfolioShares.Qty, PortfolioShares.Cost).all()
   print(query)
   data = []
   for row in query:

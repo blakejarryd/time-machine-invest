@@ -19,7 +19,7 @@ import {
 interface PortfolioProps {
   mode: string
   setTicker: (input: string) => void
-  selectedPortfolio: number
+  selectedPortfolio: (number|string)[]
 }
 
 const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
@@ -28,7 +28,7 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
   const [tableData, setTableData] = useState<any[]>([])
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio}`)
+    fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio[0]}`)
     .then(response => response.json())
     .then(portShares => {
       setPortfolioShares(portShares)
@@ -46,15 +46,17 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
     })
   }
 
-  function createData(Ticker:string,AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number) {
-    return { Ticker, AquiredDate, Qty, Cost, Value, Gain };
+  function createData(Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number) {
+    return { Ticker, Name, AquiredDate, Qty, Cost, Value, Gain };
   }
 
   useEffect(() => {
     let shareData = [...portfolioShares]
     let rows = shareData.map((data) => {
+      data.AquiredDate = new Date(data.AquiredDate).toLocaleDateString()
      return createData(
         data.Ticker,
+        data.Name,
         data.AquiredDate,
         data.Qty,
         data.Cost,
@@ -68,7 +70,7 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
   return (
     <Card elevation={3} className='Portfolio'>
       <CardHeader 
-      title={'Portfolio'} 
+      title={selectedPortfolio[1]} 
       >
       </CardHeader>
       <TableContainer>
@@ -76,6 +78,7 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
         <TableHead>
           <TableRow>
             <TableCell>Ticker</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell>AquiredDate</TableCell>
             <TableCell>Qty</TableCell>
             <TableCell>Cost</TableCell>
@@ -90,6 +93,7 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell>{row.Ticker}</TableCell>
+              <TableCell>{row.Name}</TableCell>
               <TableCell>{row.AquiredDate}</TableCell>
               <TableCell>{row.Qty}</TableCell>
               <TableCell>{row.Cost}</TableCell>

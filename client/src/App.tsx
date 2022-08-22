@@ -16,7 +16,7 @@ import Container from '@mui/material/Container'
  
 const App = () => {
   const [selectedComany, setTicker] = useState('CBA')
-  const [selectedPortfolio, setSelectedPortfolio] = useState(0)
+  const [selectedPortfolio, setSelectedPortfolio] = useState([0, 'None Selected'])
 
   return (
     <div className="App">

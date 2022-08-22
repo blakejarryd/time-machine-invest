@@ -24,7 +24,7 @@ const PortfolioList = ({ userId, setSelectedPortfolio }:PortfolioListProps) => {
   let portfolioListItems = portfolioList.map((portfolio) => {
     console.log(portfolio)
     return (
-      <ListItem button sx={{pl:0}} onClick={()=>setSelectedPortfolio(portfolio['Id'])}>
+      <ListItem button sx={{pl:0}} onClick={()=>setSelectedPortfolio([portfolio['Id'], portfolio['Name']])}>
         <ListItemText primary={portfolio['Name']} />
       </ListItem>
     )
