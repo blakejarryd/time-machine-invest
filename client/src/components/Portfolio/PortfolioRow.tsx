@@ -7,6 +7,7 @@ import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
 
 interface TableRowProps {
   row: {
+    Id: number
     Ticker:string,
     Name:string,
     AquiredDate:string,
@@ -17,15 +18,18 @@ interface TableRowProps {
     Edit: boolean
   }
   shares: Share[]
+  deleteShare: (id:number) => void
 }
 
-const PortfolioRow = ({ row, shares }:TableRowProps) => {
+const PortfolioRow = ({ row, shares, deleteShare }:TableRowProps) => {
   const [value, setValue] = useState<Date | null>(new Date('2014-08-18T21:11:54'))
   const [edit, setEdit] = useState(row.Edit)
 
   const handleChange = (newValue: Date | null) => {
     setValue(newValue)
   }
+
+  
 
   if (!edit) {
   return (
@@ -45,7 +49,7 @@ const PortfolioRow = ({ row, shares }:TableRowProps) => {
         <Edit />
       </IconButton>
       <IconButton>
-        <Delete />
+        <Delete onClick={()=>deleteShare(row.Id)}/>
       </IconButton>
     </TableCell>
   </TableRow>

@@ -37,8 +37,8 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
     })
   }, [selectedPortfolio])
 
-  function createData(Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number, Edit:boolean) {
-    return { Ticker, Name, AquiredDate, Qty, Cost, Value, Gain, Edit };
+  function createData(Id:number, Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number, Edit:boolean) {
+    return { Id, Ticker, Name, AquiredDate, Qty, Cost, Value, Gain, Edit };
   }
 
   const refreshTableRows = () => {
@@ -46,6 +46,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
     let rows = shareData.map((data) => {
       data.AquiredDate = new Date(data.AquiredDate).toLocaleDateString()
      return createData(
+        data.Id,
         data.Ticker,
         data.Name,
         data.AquiredDate,
@@ -75,7 +76,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
 
   const addRow = () => {
     setAdd(true)
-    let newRow = createData('','','',0,0,0,0,true)
+    let newRow = createData(0,'','','',0,0,0,0,true)
     let updatedRows = [...tableData, newRow]
     setTableData(updatedRows)
   }
@@ -83,6 +84,20 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
   const cancelAddRow = () => {
     setAdd(false)
     refreshTableRows()
+  }
+
+  const deleteShare = async (PortfolioShareId:number) => {
+    const res = await fetch(`http://127.0.0.1:4999/portfolio/shares/${PortfolioShareId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    let updatedTableData = [...tableData]
+    updatedTableData = updatedTableData.filter((row) => {
+      return row.Id != PortfolioShareId
+    })
+    setTableData(updatedTableData)
   }
 
   return (
@@ -106,7 +121,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
         </TableHead>
         <TableBody>
           {tableData.map((row) => (
-            <PortfolioRow row={row} shares={shares}/>
+            <PortfolioRow row={row} shares={shares} deleteShare={deleteShare}/>
           ))}
         </TableBody>
       </Table>

@@ -136,4 +136,9 @@ def portfolio_shares(portfolioId):
   print(data)
   return jsonify(data)
 
-
+@app.route('/portfolio/shares/<Id>', methods=['DELETE'])
+def delete_portfolio_share(Id):
+  buy = PortfolioShares.query.filter_by(Id=Id).first()
+  db.session.delete(buy)
+  db.session.commit()
+  return jsonify("share record deleted")
