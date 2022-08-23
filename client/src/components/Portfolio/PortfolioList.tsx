@@ -58,6 +58,7 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:Portf
     const newPortfolio = await res.json()
     let updatedPortfolios = [...portfolios, newPortfolio[0]]
     setPortfolios(updatedPortfolios)
+    setSelectedPortfolio(newPortfolio[0])
   }
 
   return (
