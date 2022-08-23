@@ -48,7 +48,10 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   const refreshTableRows = () => {
     let shareData = [...portfolioShares]
     let rows = shareData.map((data) => {
-      data.AquiredDate = new Date(data.AquiredDate).toLocaleDateString()
+      if (data.AquiredDate.length > 10) {
+        data.AquiredDate = moment(data.AquiredDate).format('DD-MM-YYYY')
+      }
+      console.log(data.AquiredDate)
      return createData(
         data.Id,
         data.Ticker,
