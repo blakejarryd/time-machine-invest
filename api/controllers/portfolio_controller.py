@@ -18,15 +18,10 @@ def create_portfolio(request):
 def create_portfolio_buy(request):
   print(request['shareId'])
   priceQuery = SharePrice.query.filter(SharePrice.ShareId==request['shareId'], SharePrice.Date<request['date']).order_by(SharePrice.Date.desc()).limit(1).all()
-  print(priceQuery)
   data = share_price_schema.dump(priceQuery)
-  print(data)
   price = data[0]['Price']
-  print(price)
   qty = request['amount']//price
-  print(qty)
   cost = qty * price
-  print(cost)
   new_buy = PortfolioShares(
     PortfolioId=request.get('portfolioId'), 
     ShareId=request.get('shareId'), 
@@ -36,4 +31,9 @@ def create_portfolio_buy(request):
   )
   db.session.add(new_buy)
   db.session.commit()
+  new_buy_list = []
+  new_buy_list.append(new_buy)
+  return new_buy_list
+
+ 
 

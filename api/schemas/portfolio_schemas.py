@@ -16,7 +16,7 @@ class PortfolioSharesSchema(ma.SQLAlchemyAutoSchema):
   Share = fields.Nested(share_schema, many=True)
   class Meta:
     model = PortfolioShares
-    fields = ('AquiredDate', 'Cost', 'Id', 'PortfolioId', 'Qty', 'ShareId', 'Ticker')
+    fields = ('AquiredDate', 'Cost', 'Id', 'PortfolioId', 'Qty', 'ShareId')
     load_instance = True
     include_fk= True
   

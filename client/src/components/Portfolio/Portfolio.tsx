@@ -32,14 +32,19 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   const [tableData, setTableData] = useState<any[]>([])
   const [add, setAdd] = useState(false)
 
-  useEffect(() => {
+  const getPortfolioShares = () => {
     fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio.Id}`)
     .then(response => response.json())
     .then(portShares => {
       setPortfolioShares(portShares)
-      console.log(portShares)
     })
+  }
+
+  useEffect(() => {
+    getPortfolioShares()
   }, [selectedPortfolio])
+
+
 
   function createData(Id:number, Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number, Edit:boolean) {
     return { Id, Ticker, Name, AquiredDate, Qty, Cost, Value, Gain, Edit };
@@ -51,7 +56,6 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
       if (data.AquiredDate.length > 10) {
         data.AquiredDate = moment(data.AquiredDate).format('DD-MM-YYYY')
       }
-      console.log(data.AquiredDate)
      return createData(
         data.Id,
         data.Ticker,
@@ -79,6 +83,9 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
       },
       body: JSON.stringify({ portfolioId: PortfolioId, shareId: ShareId, date:date, amount:amount })
     })
+    const newBuy = await res.json()
+      .then(()=>getPortfolioShares())
+      .then(()=>cancelAddRow())
   }
 
   const submitBuy = (company:string, date: Date|null, amount:number) => {
@@ -107,11 +114,8 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
         'Content-Type': 'application/json'
       }
     })
-    let updatedTableData = [...tableData]
-    updatedTableData = updatedTableData.filter((row) => {
-      return row.Id != PortfolioShareId
-    })
-    setTableData(updatedTableData)
+    const deletedShare = await res.json()
+    .then(()=>getPortfolioShares())
   }
   
   return (

@@ -110,17 +110,16 @@ def new_portfolio():
   except Exception as e:
     print(e)
     return jsonify("something went wrong")
-  print(newportfolio)
   return portfolio_schema.dump(newportfolio, many=True)
 
 @app.route('/portfolio/buy', methods=['POST'])
 def new_portfolio_buy():
   try:
-    create_portfolio_buy(request.json)
+    newbuy = create_portfolio_buy(request.json)
   except Exception as e:
     print(e)
     return jsonify("something went wrong")
-  return jsonify("portfolio buy created")
+  return portfolio_shares_schema.dump(newbuy, many=True)
 
 @app.route('/portfolio/<userId>')
 def user_portfolios(userId):
