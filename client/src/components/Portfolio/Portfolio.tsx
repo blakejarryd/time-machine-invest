@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Share, Shares } from '../../models/models'
+import { Share, Shares, SelectedPortfolio } from '../../models/models'
 import { 
   Card, 
   CardHeader, 
@@ -13,15 +13,17 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  IconButton
 } from '@mui/material'
+import { Delete } from '@mui/icons-material';
 import PortfolioRow from './PortfolioRow'
 import moment from 'moment';
 
 interface PortfolioProps {
   shares: Share[]
   setTicker: (input: string) => void
-  selectedPortfolio: (number|string)[]
+  selectedPortfolio: SelectedPortfolio
 }
 
 const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => {
@@ -30,7 +32,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
   const [add, setAdd] = useState(false)
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio[0]}`)
+    fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio.Id}`)
     .then(response => response.json())
     .then(portShares => {
       setPortfolioShares(portShares)
@@ -76,10 +78,10 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
   }
 
   const submitBuy = (company:string, date: Date|null, amount:number) => {
-    let simpledate = moment(date).format("YYYY/MM/DD")
+    let simpledate = moment(date).format("MM/DD/YYYY")
     let ticker = company.split(' ')[0] 
     let share = shares.filter((share) => share.Ticker === ticker)
-    addBuy(Number(selectedPortfolio[0]),share[0].Id!,simpledate!,amount)
+    addBuy(Number(selectedPortfolio.Id),share[0].Id!,simpledate!,amount)
   }
 
   const addRow = () => {
@@ -108,10 +110,24 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
     setTableData(updatedTableData)
   }
 
+  const deletePortfolio = async () => {
+    const res = await fetch(`http://127.0.0.1:4999/portfolio/${selectedPortfolio.Id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+  
   return (
     <Card elevation={3} className='Portfolio'>
       <CardHeader 
-      title={selectedPortfolio[1]} 
+      title={selectedPortfolio.Name} 
+      action={
+        <IconButton>
+          <Delete onClick={()=> deletePortfolio()}/>
+        </IconButton>
+      }
       >
       </CardHeader>
       <TableContainer>

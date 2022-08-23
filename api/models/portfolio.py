@@ -5,6 +5,11 @@ class Portfolio(db.Model):
   Id = db.Column(db.Integer, primary_key=True)
   UserId = db.Column(db.Integer, db.ForeignKey('User.Id'))
   Name = db.Column(db.String(150), nullable=False, unique=True)
+  PortfolioShares = db.relationship(
+    'PortfolioShares',
+    backref='Portfolio',
+    cascade='all, delete'
+  )
 
 class PortfolioShares(db.Model):
   __tablename__ = 'PortfolioShares'

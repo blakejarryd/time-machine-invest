@@ -5,7 +5,7 @@ export interface Shares {
   Sector?: string;
   Summary?: string;
   Ticker?: string
-}[]
+}
 
 export interface Share {
   Id?: number;
@@ -27,3 +27,17 @@ export interface Price {
   Price?: number
   ShareId?: number
 }
+
+export interface PortfolioInterface {
+  Id?: number
+  Name?: string
+  PortfolioShares?: []
+  UserId: number
+}
+
+export interface SelectedPortfolio {
+  Id?: number
+  Name?: string
+}
+
+

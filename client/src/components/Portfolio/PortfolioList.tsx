@@ -1,30 +1,33 @@
 import { useState, useEffect } from 'react'
 import { TextField,  Card, CardHeader, CardContent, CardActions, Button, Typography, Divider, ListItem, ListItemText} from '@mui/material'
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { PortfolioInterface, SelectedPortfolio } from '../../models/models'
+
 
 interface PortfolioListProps {
-  userId: number
-  setSelectedPortfolio: React.Dispatch<React.SetStateAction<any>>
+  setSelectedPortfolio: React.Dispatch<React.SetStateAction<any>> 
+  portfolios:PortfolioInterface[]
 }
 
-const PortfolioList = ({ userId, setSelectedPortfolio }:PortfolioListProps) => {
+
+const PortfolioList = ({ setSelectedPortfolio, portfolios }:PortfolioListProps) => {
   const [addNew, setAddNew] = useState(false)
   const [addNewInput, setAddNewInput] = useState('')
-  const [portfolios, setPortfolios] = useState([])
 
-
-  useEffect(() => {
-    fetch(`http://127.0.0.1:4999/portfolio/${userId}`)
-    .then(response => response.json())
-    .then(portfolios => {setPortfolios(portfolios)})  
-  }, [])
+  const setPortfolio = (portfolio:SelectedPortfolio) => {
+    let selectedPortfolio = {
+      Id: portfolio.Id,
+      Name: portfolio.Name
+    }
+    setSelectedPortfolio(selectedPortfolio)
+  }
 
 
   let portfolioList = [...portfolios]
   let portfolioListItems = portfolioList.map((portfolio) => {
     console.log(portfolio)
     return (
-      <ListItem button sx={{pl:0}} onClick={()=>setSelectedPortfolio([portfolio['Id'], portfolio['Name']])}>
+      <ListItem button sx={{pl:0}} onClick={()=>setPortfolio(portfolio)}>
         <ListItemText primary={portfolio['Name']} />
       </ListItem>
     )

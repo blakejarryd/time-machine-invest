@@ -6,7 +6,7 @@ import Home from './components/Home';
 import Search from './components/Research/Search'
 import SharesList from './components/Research/SharesList';
 import CompanyDetails from './components/Research/CompanyDetails';
-import { Share, Shares } from './models/models'
+import { Share, Shares, PortfolioInterface, SelectedPortfolio } from './models/models'
 import SearchList from './components/Research/SearchList';
 import PortfolioList from './components/Portfolio/PortfolioList';
 import Portfolio from './components/Portfolio/Portfolio';
@@ -15,14 +15,22 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container'
  
 const App = () => {
-  const [selectedComany, setTicker] = useState('CBA')
-  const [selectedPortfolio, setSelectedPortfolio] = useState([0, 'None Selected'])
   const [shares, setShares] = useState<Share[]>([])
+  const [selectedComany, setTicker] = useState('CBA')
+  const [portfolios, setPortfolios] = useState<PortfolioInterface[]>([])
+  const [selectedPortfolio, setSelectedPortfolio] = useState<SelectedPortfolio>()
+
 
   useEffect(() => {
     fetch('http://127.0.0.1:4999/shares')
     .then(response => response.json())
     .then(shares => {setShares(shares)})  
+  }, [])
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:4999/portfolio/1`)
+    .then(response => response.json())
+    .then(portfolios => {setPortfolios(portfolios)})  
   }, [])
 
   return (
@@ -55,10 +63,10 @@ const App = () => {
           <Container maxWidth='xl' >
             <Grid2 container spacing={0}>
               <Grid2 xs={12} md={3}>
-                <PortfolioList userId={1} setSelectedPortfolio={setSelectedPortfolio}/>
+                <PortfolioList setSelectedPortfolio={setSelectedPortfolio} portfolios={portfolios}/>
               </Grid2>
               <Grid2 xs={12} md={9}>
-                <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio}/>
+                {selectedPortfolio && <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio}/>}
               </Grid2>
             </Grid2>
           </Container>
