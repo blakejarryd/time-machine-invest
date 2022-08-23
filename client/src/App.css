@@ -1,15 +1,49 @@
+
 .SearchList, .CompanyDetails, .PortfolioList, .Portfolio {
   margin: 30px;
   margin-top: 60px;
 }
 
+.navbar {
+  background-color: #0076BC;
+  min-height: 75px;
+  display:flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.navbar img {
+  max-height: 100px;
+}
+
+.navitem {
+  height: 75px;
+  display: flex;
+  min-width: 120px;
+  justify-content: center;
+  align-items: center;
+}
+
+.navitem:hover {
+  background-color: grey;
+  cursor: pointer;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+}
+
+
+
+
 .App {
-  background-color: #D6E7E9;
   background-image: url("./clock-background.jpeg");
-  background-size: auto;
-  background-position: center;
   height: 100vh;
   width: 100vw;
+  background-color: #D6E7E9;
+  background-size: auto;
+  background-position: center;
   background-repeat:no-repeat; 
 }
 

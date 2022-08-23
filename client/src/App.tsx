@@ -10,7 +10,6 @@ import { Share, Shares, PortfolioInterface, SelectedPortfolio } from './models/m
 import SearchList from './components/Research/SearchList';
 import PortfolioList from './components/Portfolio/PortfolioList';
 import Portfolio from './components/Portfolio/Portfolio';
-import ResponsiveAppBar from './components/Nav';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container'
  
@@ -54,13 +53,13 @@ const App = () => {
       <Routes>
       <Route path="/" element = { 
         <>
-          <ResponsiveAppBar />
+          <Nav />
           <Home />
         </>
       } />
       <Route path="/research" element = {
         <>
-          <ResponsiveAppBar />
+          <Nav />
           <Container maxWidth='xl' >
             <Grid2 container spacing={2}>
               <Grid2 xs={12} md={4}>
@@ -75,7 +74,7 @@ const App = () => {
       } />
       <Route path="/portfolio" element = {
         <>
-          <ResponsiveAppBar />
+          <Nav />
           <Container maxWidth='xl' >
             <Grid2 container spacing={0}>
               <Grid2 xs={12} lg={2}>
