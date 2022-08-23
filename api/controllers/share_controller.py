@@ -23,6 +23,7 @@ def load_share_info(share, info):
   share.LogoUrl = info.get('logo_url')
   share.DividendYield = info.get('dividendYield')
   share.MarketCap = info.get('marketCap')
+  share.CurrentPrice = info.get('currentPrice')
   db.session.add(share)
   db.session.commit()
 

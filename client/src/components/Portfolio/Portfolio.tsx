@@ -46,8 +46,21 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
 
 
 
-  function createData(Id:number, Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number, Edit:boolean) {
-    return { Id, Ticker, Name, AquiredDate, Qty, Cost, Value, Gain, Edit };
+  function createData(
+    Id:number, 
+    Ticker:string, 
+    Name:string, 
+    AquiredDate:String,
+    Qty:number,
+    CostPrice:number,
+    Cost:number,
+    CurrentPrice:number,
+    CurrentValue:number,
+    Gain:number, 
+    Edit:boolean
+    ) 
+    {
+    return { Id, Ticker, Name, AquiredDate, Qty, CostPrice, Cost, CurrentPrice, CurrentValue, Gain, Edit };
   }
 
   const refreshTableRows = () => {
@@ -62,9 +75,11 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
         data.Name,
         data.AquiredDate,
         data.Qty,
+        data.CostPrice,
         data.Cost,
-        data.Cost,
-        0,
+        data.CurrentPrice,
+        data.CurrentValue,
+        data.Gain,
         false
       )
     })
@@ -97,7 +112,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
 
   const addRow = () => {
     setAdd(true)
-    let newRow = createData(0,'','','',0,0,0,0,true)
+    let newRow = createData(0,'','','',0,0,0,0,0,0,true)
     let updatedRows = [...tableData, newRow]
     setTableData(updatedRows)
   }
@@ -135,9 +150,11 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
           <TableRow>
             <TableCell>Ticker</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>AquiredDate</TableCell>
+            <TableCell>Purchase Date</TableCell>
             <TableCell>Qty</TableCell>
+            <TableCell>Cost Price</TableCell>
             <TableCell>Cost</TableCell>
+            <TableCell>Price</TableCell>
             <TableCell>Value</TableCell>
             <TableCell>Gain/Loss</TableCell>
           </TableRow>

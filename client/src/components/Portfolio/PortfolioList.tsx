@@ -26,7 +26,6 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:Portf
 
   let portfolioList = [...portfolios]
   let portfolioListItems = portfolioList.map((portfolio) => {
-    console.log(portfolio)
     return (
       <ListItem button sx={{pl:0}} onClick={()=>setPortfolio(portfolio)}>
         <ListItemText primary={portfolio['Name']} />
@@ -62,9 +61,9 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:Portf
   }
 
   return (
-    <Card sx={{p:3}} elevation={3} className = "PortfolioList">
+    <Card sx={{p:1}} elevation={3} className = "PortfolioList">
       <CardHeader 
-        title='My Portfolios'
+        title='Portfolios'
         >
       </CardHeader>
       <CardContent>

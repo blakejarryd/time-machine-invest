@@ -128,10 +128,15 @@ def user_portfolios(userId):
 
 @app.route('/portfolio/shares/<portfolioId>')
 def portfolio_shares(portfolioId):
-  query = session.query(PortfolioShares, Share).join(Share, PortfolioShares.ShareId==Share.Id).filter(PortfolioShares.PortfolioId==portfolioId).with_entities(PortfolioShares.Id, PortfolioShares.ShareId, Share.Ticker, Share.Name, PortfolioShares.AquiredDate, PortfolioShares.Qty, PortfolioShares.Cost).all()
+  query = session.query(PortfolioShares, Share).join(Share, PortfolioShares.ShareId==Share.Id).filter(PortfolioShares.PortfolioId==portfolioId).with_entities(PortfolioShares.Id, PortfolioShares.ShareId, Share.Ticker, Share.Name, Share.CurrentPrice, PortfolioShares.AquiredDate, PortfolioShares.Qty, PortfolioShares.Cost).all()
   data = []
   for row in query:
     data.append(dict(row))
+  for obj in data:
+    obj['CurrentValue'] = obj['Qty'] * obj['CurrentPrice']
+    obj['CostPrice'] = obj['Cost']/obj['Qty']
+    obj['Gain'] = obj['CurrentValue'] - obj['Cost']
+  print(data)
   return jsonify(data)
 
 @app.route('/portfolio/shares/<Id>', methods=['DELETE'])

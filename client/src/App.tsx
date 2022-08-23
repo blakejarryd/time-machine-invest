@@ -78,10 +78,10 @@ const App = () => {
           <ResponsiveAppBar />
           <Container maxWidth='xl' >
             <Grid2 container spacing={0}>
-              <Grid2 xs={12} md={3}>
+              <Grid2 xs={12} lg={2}>
                 <PortfolioList setSelectedPortfolio={setSelectedPortfolio} portfolios={portfolios} setPortfolios={setPortfolios}/>
               </Grid2>
-              <Grid2 xs={12} md={9}>
+              <Grid2 xs={12} lg={10}>
                 {selectedPortfolio && <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio} deletePortfolio={deletePortfolio}/>}
               </Grid2>
             </Grid2>

@@ -13,7 +13,7 @@ class Share(db.Model):
   LogoUrl = db.Column(db.Text)
   DividendYield = db.Column(db.Numeric(10, 4))
   MarketCap = db.Column(db.BigInteger)
-
+  CurrentPrice = db.Column(db.Numeric(10, 4))
 
 class SharePrice(db.Model):
   __tablename__ = 'SharePrice'

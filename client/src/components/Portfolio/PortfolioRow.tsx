@@ -11,11 +11,13 @@ interface TableRowProps {
     Ticker:string,
     Name:string,
     AquiredDate:string,
-    Qty: number,
-    Cost: number,
-    Value: number,
-    Gain: number,
-    Edit: boolean
+    Qty:number,
+    CostPrice:number,
+    Cost:number,
+    CurrentPrice:number
+    CurrentValue:number,
+    Gain:number,
+    Edit:boolean
   }
   shares: Share[]
   deleteShare: (id:number) => void
@@ -39,13 +41,12 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
     <TableCell>{row.Name}</TableCell>
     <TableCell>{row.AquiredDate}</TableCell>
     <TableCell>{row.Qty}</TableCell>
+    <TableCell>{row.CostPrice}</TableCell>
     <TableCell>{row.Cost}</TableCell>
-    <TableCell>{row.Value}</TableCell>
+    <TableCell>{row.CurrentPrice}</TableCell>
+    <TableCell>{row.CurrentValue}</TableCell>
     <TableCell>{row.Gain}</TableCell>
     <TableCell>
-      <IconButton>
-        <Edit />
-      </IconButton>
       <IconButton>
         <Delete onClick={()=>deleteShare(row.Id)}/>
       </IconButton>
