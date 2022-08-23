@@ -11,6 +11,9 @@ def create_portfolio(request):
   new_portfolio = Portfolio(UserId=request['UserId'], Name=request['Name'])
   db.session.add(new_portfolio)
   db.session.commit()
+  new_portfofolio_list = []
+  new_portfofolio_list.append(new_portfolio)
+  return new_portfofolio_list
 
 def create_portfolio_buy(request):
   print(request['shareId'])

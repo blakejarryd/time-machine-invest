@@ -18,7 +18,7 @@ const App = () => {
   const [shares, setShares] = useState<Share[]>([])
   const [selectedComany, setTicker] = useState('CBA')
   const [portfolios, setPortfolios] = useState<PortfolioInterface[]>([])
-  const [selectedPortfolio, setSelectedPortfolio] = useState<SelectedPortfolio>()
+  const [selectedPortfolio, setSelectedPortfolio] = useState<any>()
 
 
   useEffect(() => {
@@ -32,6 +32,22 @@ const App = () => {
     .then(response => response.json())
     .then(portfolios => {setPortfolios(portfolios)})  
   }, [])
+
+  const deletePortfolio = async (id:number) => {
+    const res = await fetch(`http://127.0.0.1:4999/portfolio/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const deletedPortfolio = await res.json()
+    let updatedPortfolios = [...portfolios]
+    updatedPortfolios = updatedPortfolios.filter((portfolio) => {
+      return portfolio.Id != id
+    })
+    setPortfolios(updatedPortfolios)
+    setSelectedPortfolio(false)
+  }
 
   return (
     <div className="App">
@@ -63,10 +79,10 @@ const App = () => {
           <Container maxWidth='xl' >
             <Grid2 container spacing={0}>
               <Grid2 xs={12} md={3}>
-                <PortfolioList setSelectedPortfolio={setSelectedPortfolio} portfolios={portfolios}/>
+                <PortfolioList setSelectedPortfolio={setSelectedPortfolio} portfolios={portfolios} setPortfolios={setPortfolios}/>
               </Grid2>
               <Grid2 xs={12} md={9}>
-                {selectedPortfolio && <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio}/>}
+                {selectedPortfolio && <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio} deletePortfolio={deletePortfolio}/>}
               </Grid2>
             </Grid2>
           </Container>

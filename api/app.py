@@ -106,11 +106,12 @@ def new_user():
 @app.route('/portfolio', methods=['POST'])
 def new_portfolio():
   try:
-    create_portfolio(request.json)
+    newportfolio = create_portfolio(request.json)
   except Exception as e:
     print(e)
     return jsonify("something went wrong")
-  return jsonify("portfolio created")
+  print(newportfolio)
+  return portfolio_schema.dump(newportfolio, many=True)
 
 @app.route('/portfolio/buy', methods=['POST'])
 def new_portfolio_buy():
@@ -129,11 +130,9 @@ def user_portfolios(userId):
 @app.route('/portfolio/shares/<portfolioId>')
 def portfolio_shares(portfolioId):
   query = session.query(PortfolioShares, Share).join(Share, PortfolioShares.ShareId==Share.Id).filter(PortfolioShares.PortfolioId==portfolioId).with_entities(PortfolioShares.Id, PortfolioShares.ShareId, Share.Ticker, Share.Name, PortfolioShares.AquiredDate, PortfolioShares.Qty, PortfolioShares.Cost).all()
-  print(query)
   data = []
   for row in query:
     data.append(dict(row))
-  print(data)
   return jsonify(data)
 
 @app.route('/portfolio/shares/<Id>', methods=['DELETE'])

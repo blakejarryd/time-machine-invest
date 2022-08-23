@@ -24,9 +24,10 @@ interface PortfolioProps {
   shares: Share[]
   setTicker: (input: string) => void
   selectedPortfolio: SelectedPortfolio
+  deletePortfolio: (id:any) => void
 }
 
-const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => {
+const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: PortfolioProps) => {
   const [portfolioShares, setPortfolioShares] = useState<any[]>([])
   const [tableData, setTableData] = useState<any[]>([])
   const [add, setAdd] = useState(false)
@@ -109,15 +110,6 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
     })
     setTableData(updatedTableData)
   }
-
-  const deletePortfolio = async () => {
-    const res = await fetch(`http://127.0.0.1:4999/portfolio/${selectedPortfolio.Id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }
   
   return (
     <Card elevation={3} className='Portfolio'>
@@ -125,7 +117,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
       title={selectedPortfolio.Name} 
       action={
         <IconButton>
-          <Delete onClick={()=> deletePortfolio()}/>
+          <Delete onClick={()=> deletePortfolio(selectedPortfolio.Id)}/>
         </IconButton>
       }
       >

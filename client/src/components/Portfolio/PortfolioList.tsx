@@ -6,11 +6,12 @@ import { PortfolioInterface, SelectedPortfolio } from '../../models/models'
 
 interface PortfolioListProps {
   setSelectedPortfolio: React.Dispatch<React.SetStateAction<any>> 
+  setPortfolios: React.Dispatch<React.SetStateAction<any>>
   portfolios:PortfolioInterface[]
 }
 
 
-const PortfolioList = ({ setSelectedPortfolio, portfolios }:PortfolioListProps) => {
+const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:PortfolioListProps) => {
   const [addNew, setAddNew] = useState(false)
   const [addNewInput, setAddNewInput] = useState('')
 
@@ -54,6 +55,9 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios }:PortfolioListProps) 
       },
       body: JSON.stringify({ UserId: 1, Name: portfolioName})
     })
+    const newPortfolio = await res.json()
+    let updatedPortfolios = [...portfolios, newPortfolio[0]]
+    setPortfolios(updatedPortfolios)
   }
 
   return (
