@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Share } from '../../models/models'
-import { TableRow, TableCell, TextField, Autocomplete, InputAdornment, IconButton } from '@mui/material'
+import { FormControl, TableRow, TableCell, TextField, Autocomplete, InputAdornment, IconButton, Button } from '@mui/material'
 import { AttachMoney, Edit, Delete } from '@mui/icons-material';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
@@ -19,17 +19,15 @@ interface TableRowProps {
   }
   shares: Share[]
   deleteShare: (id:number) => void
+  submitBuy: (company:string, date:Date|null, amount:number) => void
 }
 
-const PortfolioRow = ({ row, shares, deleteShare }:TableRowProps) => {
-  const [value, setValue] = useState<Date | null>(new Date('2014-08-18T21:11:54'))
+
+const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => {
   const [edit, setEdit] = useState(row.Edit)
-
-  const handleChange = (newValue: Date | null) => {
-    setValue(newValue)
-  }
-
-  
+  const [company, setCompany] = useState('')
+  const [date, setDate] = useState<Date | null>(new Date())
+  const [amount, setAmount] = useState(0)
 
   if (!edit) {
   return (
@@ -62,8 +60,12 @@ const PortfolioRow = ({ row, shares, deleteShare }:TableRowProps) => {
     >
       <TableCell colSpan={2}>
         <Autocomplete
+          inputValue={company}
+          onInputChange={(event, newCompany) => {
+            setCompany(newCompany);
+          }}
           disablePortal
-          id="combo-box-demo"
+          id="Company"
           options={shares.map((share) => share.Ticker + ' ' + share.Name)}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Company" />}
@@ -73,9 +75,9 @@ const PortfolioRow = ({ row, shares, deleteShare }:TableRowProps) => {
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <DesktopDatePicker
             label="Purchase Date"
-            inputFormat="dd/MM/yyyy"
-            value='01/01/2022'
-            onChange={handleChange}
+            inputFormat="DD/MM/yyyy"
+            value={date}
+            onChange={(newValue) => setDate(newValue)}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
@@ -84,7 +86,9 @@ const PortfolioRow = ({ row, shares, deleteShare }:TableRowProps) => {
         <TextField
           id="Amount"
           label="Amount"
-          type="number"
+  
+          value={amount}
+          onChange={(event) => {setAmount(Number(event.target.value))}}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -96,6 +100,9 @@ const PortfolioRow = ({ row, shares, deleteShare }:TableRowProps) => {
             shrink: true,
           }}
         />
+      </TableCell>
+      <TableCell>
+        <Button onClick={()=> submitBuy(company, date, amount)}>Submit</Button>
       </TableCell>
     </TableRow>
     )

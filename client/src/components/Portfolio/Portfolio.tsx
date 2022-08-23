@@ -16,6 +16,7 @@ import {
   TableRow
 } from '@mui/material'
 import PortfolioRow from './PortfolioRow'
+import moment from 'moment';
 
 interface PortfolioProps {
   shares: Share[]
@@ -64,14 +65,21 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
     refreshTableRows()
   }, [portfolioShares])
 
-  const addBuy = async (PortfolioId:number, ShareId:number) => {
+  const addBuy = async (PortfolioId:number,ShareId:number, date: string, amount:number) => {
     const res = await fetch('http://127.0.0.1:4999/portfolio/buy', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ PortfolioId: PortfolioId, ShareId: ShareId})
+      body: JSON.stringify({ portfolioId: PortfolioId, shareId: ShareId, date:date, amount:amount })
     })
+  }
+
+  const submitBuy = (company:string, date: Date|null, amount:number) => {
+    let simpledate = moment(date).format("YYYY/MM/DD")
+    let ticker = company.split(' ')[0] 
+    let share = shares.filter((share) => share.Ticker === ticker)
+    addBuy(Number(selectedPortfolio[0]),share[0].Id!,simpledate!,amount)
   }
 
   const addRow = () => {
@@ -121,7 +129,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => 
         </TableHead>
         <TableBody>
           {tableData.map((row) => (
-            <PortfolioRow row={row} shares={shares} deleteShare={deleteShare}/>
+            <PortfolioRow row={row} shares={shares} deleteShare={deleteShare} submitBuy={submitBuy}/>
           ))}
         </TableBody>
       </Table>
