@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react'
-import { Shares } from '../models/models'
+import { Shares } from '../../models/models'
 import { Link } from "react-router-dom";
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';

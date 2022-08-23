@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import SearchList from './SearchList'
 import { 
   Card, 
   CardHeader, 
@@ -15,6 +14,7 @@ import {
   TableHead,
   TableRow
 } from '@mui/material'
+import PortfolioRow from './PortfolioRow'
 
 interface PortfolioProps {
   mode: string
@@ -35,16 +35,6 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
       console.log(portShares)
     })
   }, [selectedPortfolio])
-
-  const addBuy = async (PortfolioId:number, ShareId:number) => {
-    const res = await fetch('http://127.0.0.1:4999/portfolio/buy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ PortfolioId: PortfolioId, ShareId: ShareId})
-    })
-  }
 
   function createData(Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number) {
     return { Ticker, Name, AquiredDate, Qty, Cost, Value, Gain };
@@ -67,6 +57,16 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
     setTableData(rows)
   }, [portfolioShares])
 
+  const addBuy = async (PortfolioId:number, ShareId:number) => {
+    const res = await fetch('http://127.0.0.1:4999/portfolio/buy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ PortfolioId: PortfolioId, ShareId: ShareId})
+    })
+  }
+
   return (
     <Card elevation={3} className='Portfolio'>
       <CardHeader 
@@ -88,25 +88,25 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
         </TableHead>
         <TableBody>
           {tableData.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell>{row.Ticker}</TableCell>
-              <TableCell>{row.Name}</TableCell>
-              <TableCell>{row.AquiredDate}</TableCell>
-              <TableCell>{row.Qty}</TableCell>
-              <TableCell>{row.Cost}</TableCell>
-              <TableCell>{row.Value}</TableCell>
-              <TableCell>{row.Gain}</TableCell>
-            </TableRow>
+            <PortfolioRow row={row} />
+            // <TableRow
+            //   key={row.name}
+            //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            // >
+            //   <TableCell>{row.Ticker}</TableCell>
+            //   <TableCell>{row.Name}</TableCell>
+            //   <TableCell>{row.AquiredDate}</TableCell>
+            //   <TableCell>{row.Qty}</TableCell>
+            //   <TableCell>{row.Cost}</TableCell>
+            //   <TableCell>{row.Value}</TableCell>
+            //   <TableCell>{row.Gain}</TableCell>
+            // </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
       <CardActions>
       {!add && <Button onClick={()=>setAdd(true)}>Add</Button>}
-      {add && < SearchList mode={'portfolio'} setTicker={setTicker} />}
       {add && <Button onClick={()=>setAdd(false)}>Cancel</Button>}
       </CardActions>
     </Card>

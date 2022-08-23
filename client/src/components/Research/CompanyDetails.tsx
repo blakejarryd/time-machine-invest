@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react'
-import { Share } from '../models/models'
+import { Share } from '../../models/models'
 import { useParams } from "react-router-dom";
 import SharePrices from './SharePrices';
 import { Card, CardHeader, CardContent, Accordion, AccordionSummary, AccordionDetails, Typography, Divider } from '@mui/material'

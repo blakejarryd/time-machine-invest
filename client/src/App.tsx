@@ -3,13 +3,13 @@ import { Routes, Route, Link} from "react-router-dom";
 import './App.css';
 import Nav from './components/Nav';
 import Home from './components/Home';
-import Search from './components/Search'
-import SharesList from './components/SharesList';
-import CompanyDetails from './components/CompanyDetails';
+import Search from './components/Research/Search'
+import SharesList from './components/Research/SharesList';
+import CompanyDetails from './components/Research/CompanyDetails';
 import { Share, Shares } from './models/models'
-import SearchList from './components/SearchList';
-import PortfolioList from './components/PortfolioList';
-import Portfolio from './components/Portfolio';
+import SearchList from './components/Research/SearchList';
+import PortfolioList from './components/Portfolio/PortfolioList';
+import Portfolio from './components/Portfolio/Portfolio';
 import ResponsiveAppBar from './components/Nav';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container'
@@ -33,7 +33,7 @@ const App = () => {
           <Container maxWidth='xl' >
             <Grid2 container spacing={2}>
               <Grid2 xs={12} md={4}>
-                <SearchList mode={'research'} setTicker={setTicker}/>
+                <SearchList setTicker={setTicker}/>
               </Grid2>
               <Grid2 xs={12} md={8}>
               <CompanyDetails ticker={selectedComany}/>

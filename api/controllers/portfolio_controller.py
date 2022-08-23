@@ -12,11 +12,11 @@ def create_portfolio(request):
 
 def create_portfolio_buy(request):
   new_buy = PortfolioShares(
-    PortfolioId=request['PortfolioId'], 
-    ShareId=request['ShareId'], 
-    Qty=request['Qty'],
-    AquiredDate=request['AquiredDate'],
-    Cost=request['Cost']
+    PortfolioId=request.get('PortfolioId'), 
+    ShareId=request.get('ShareId'), 
+    Qty=request.get('Qty'),
+    AquiredDate=request.get('AquiredDate'),
+    Cost=request.get('Cost')
   )
   db.session.add(new_buy)
   db.session.commit()

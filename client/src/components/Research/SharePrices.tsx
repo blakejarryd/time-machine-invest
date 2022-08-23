@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react'
-import { Price } from '../models/models'
+import { Price } from '../../models/models'
 import { useParams } from "react-router-dom";
 import ReactECharts from 'echarts-for-react';
 import { blue } from '@mui/material/colors';

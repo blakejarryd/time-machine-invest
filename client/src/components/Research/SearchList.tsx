@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react'
 import Search from './Search'
-import SharesList from './SharesList';
-import { Share, Shares } from '../models/models'
+import SharesList from './SharesList'
+import { Share, Shares } from '../../models/models'
 import { Paper } from '@mui/material'
 
 interface SearchListProps {
-  mode: string
   setTicker: (input: string) => void
 }
 
-const SearchList = ({ mode, setTicker }: SearchListProps) => {
-  const [currentMode, setCurrentMode] = useState(mode)
+const SearchList = ({ setTicker }: SearchListProps) => {
   const [shares, setShares] = useState<Share[]>([])
   const [filteredShares, setFilteredShares] = useState<Share[]>([])
 
@@ -43,7 +41,7 @@ const SearchList = ({ mode, setTicker }: SearchListProps) => {
   return (
     <Paper sx={{p:3}} elevation={3} className="SearchList">
       <Search filterShares = {filterShares} />
-      {shares && <SharesList mode={mode} shares={filteredShares} setTicker={setTicker}/>}
+      {shares && <SharesList shares={filteredShares} setTicker={setTicker}/>}
     </Paper>
   )
 }
