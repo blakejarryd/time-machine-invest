@@ -6,24 +6,16 @@ import { Paper } from '@mui/material'
 
 interface SearchListProps {
   setTicker: (input: string) => void
+  shares: Share[]
 }
 
-const SearchList = ({ setTicker }: SearchListProps) => {
-  const [shares, setShares] = useState<Share[]>([])
+const SearchList = ({ setTicker, shares }: SearchListProps) => {
   const [filteredShares, setFilteredShares] = useState<Share[]>([])
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:4999/shares')
-    .then(response => response.json())
-    .then(shares => {setShares(shares)})  
-  }, [])
 
   useEffect(() => {
     let trimmedShares = shares.slice(0,10)
     setFilteredShares(trimmedShares)
   }, [shares])
-
-
 
   const filterShares = (input: string) => {
     let shareList = shares

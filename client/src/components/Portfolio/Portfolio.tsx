@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Share, Shares } from '../../models/models'
 import { 
   Card, 
   CardHeader, 
@@ -17,15 +18,15 @@ import {
 import PortfolioRow from './PortfolioRow'
 
 interface PortfolioProps {
-  mode: string
+  shares: Share[]
   setTicker: (input: string) => void
   selectedPortfolio: (number|string)[]
 }
 
-const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
-  const [add, setAdd] = useState(false)
+const Portfolio = ({ shares, setTicker, selectedPortfolio }: PortfolioProps) => {
   const [portfolioShares, setPortfolioShares] = useState<any[]>([])
   const [tableData, setTableData] = useState<any[]>([])
+  const [add, setAdd] = useState(false)
 
   useEffect(() => {
     fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio[0]}`)
@@ -36,11 +37,11 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
     })
   }, [selectedPortfolio])
 
-  function createData(Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number) {
-    return { Ticker, Name, AquiredDate, Qty, Cost, Value, Gain };
+  function createData(Ticker:string, Name:string, AquiredDate: String,Qty: number,Cost: number,Value: number,Gain: number, Edit:boolean) {
+    return { Ticker, Name, AquiredDate, Qty, Cost, Value, Gain, Edit };
   }
 
-  useEffect(() => {
+  const refreshTableRows = () => {
     let shareData = [...portfolioShares]
     let rows = shareData.map((data) => {
       data.AquiredDate = new Date(data.AquiredDate).toLocaleDateString()
@@ -51,10 +52,15 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
         data.Qty,
         data.Cost,
         data.Cost,
-        0
+        0,
+        false
       )
     })
     setTableData(rows)
+  }
+
+  useEffect(() => {
+    refreshTableRows()
   }, [portfolioShares])
 
   const addBuy = async (PortfolioId:number, ShareId:number) => {
@@ -65,6 +71,18 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
       },
       body: JSON.stringify({ PortfolioId: PortfolioId, ShareId: ShareId})
     })
+  }
+
+  const addRow = () => {
+    setAdd(true)
+    let newRow = createData('','','',0,0,0,0,true)
+    let updatedRows = [...tableData, newRow]
+    setTableData(updatedRows)
+  }
+
+  const cancelAddRow = () => {
+    setAdd(false)
+    refreshTableRows()
   }
 
   return (
@@ -88,26 +106,14 @@ const Portfolio = ({ mode, setTicker, selectedPortfolio }: PortfolioProps) => {
         </TableHead>
         <TableBody>
           {tableData.map((row) => (
-            <PortfolioRow row={row} />
-            // <TableRow
-            //   key={row.name}
-            //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            // >
-            //   <TableCell>{row.Ticker}</TableCell>
-            //   <TableCell>{row.Name}</TableCell>
-            //   <TableCell>{row.AquiredDate}</TableCell>
-            //   <TableCell>{row.Qty}</TableCell>
-            //   <TableCell>{row.Cost}</TableCell>
-            //   <TableCell>{row.Value}</TableCell>
-            //   <TableCell>{row.Gain}</TableCell>
-            // </TableRow>
+            <PortfolioRow row={row} shares={shares}/>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
       <CardActions>
-      {!add && <Button onClick={()=>setAdd(true)}>Add</Button>}
-      {add && <Button onClick={()=>setAdd(false)}>Cancel</Button>}
+      {!add && <Button onClick={()=>addRow()}>Add</Button>}
+      {add && <Button onClick={()=>cancelAddRow()}>Cancel</Button>}
       </CardActions>
     </Card>
   )

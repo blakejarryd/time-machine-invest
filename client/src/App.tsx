@@ -17,6 +17,13 @@ import Container from '@mui/material/Container'
 const App = () => {
   const [selectedComany, setTicker] = useState('CBA')
   const [selectedPortfolio, setSelectedPortfolio] = useState([0, 'None Selected'])
+  const [shares, setShares] = useState<Share[]>([])
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:4999/shares')
+    .then(response => response.json())
+    .then(shares => {setShares(shares)})  
+  }, [])
 
   return (
     <div className="App">
@@ -33,7 +40,7 @@ const App = () => {
           <Container maxWidth='xl' >
             <Grid2 container spacing={2}>
               <Grid2 xs={12} md={4}>
-                <SearchList setTicker={setTicker}/>
+                <SearchList setTicker={setTicker} shares={shares}/>
               </Grid2>
               <Grid2 xs={12} md={8}>
               <CompanyDetails ticker={selectedComany}/>
@@ -51,7 +58,7 @@ const App = () => {
                 <PortfolioList userId={1} setSelectedPortfolio={setSelectedPortfolio}/>
               </Grid2>
               <Grid2 xs={12} md={9}>
-                <Portfolio mode={'portfolio'} setTicker={setTicker} selectedPortfolio={selectedPortfolio}/>
+                <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio}/>
               </Grid2>
             </Grid2>
           </Container>
