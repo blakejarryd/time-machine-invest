@@ -23,7 +23,6 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:Portf
     setSelectedPortfolio(selectedPortfolio)
   }
 
-
   let portfolioList = [...portfolios]
   let portfolioListItems = portfolioList.map((portfolio) => {
     return (

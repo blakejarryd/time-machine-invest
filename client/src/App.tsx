@@ -3,10 +3,12 @@ import { Routes, Route, Link} from "react-router-dom";
 import './App.css';
 import Nav from './components/Nav';
 import Home from './components/Home';
-import Search from './components/Research/Search'
+import LoginForm from './components/Auth/LoginForm';
+import RegisterForm from './components/Auth/RegisterForm';
+import Search from './components/Research/Search';
 import SharesList from './components/Research/SharesList';
 import CompanyDetails from './components/Research/CompanyDetails';
-import { Share, Shares, PortfolioInterface, SelectedPortfolio } from './models/models'
+import { Share, Shares, PortfolioInterface, SelectedPortfolio } from './models/models';
 import SearchList from './components/Research/SearchList';
 import PortfolioList from './components/Portfolio/PortfolioList';
 import Portfolio from './components/Portfolio/Portfolio';
@@ -14,11 +16,49 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container'
  
 const App = () => {
+  const [user, setUser] = useState(null)
   const [shares, setShares] = useState<Share[]>([])
   const [selectedComany, setTicker] = useState('CBA')
   const [portfolios, setPortfolios] = useState<PortfolioInterface[]>([])
   const [selectedPortfolio, setSelectedPortfolio] = useState<any>()
 
+/***********************************************************************
+ * AUTH
+ **********************************************************************/
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const res = await fetch('/is-authenticated')
+      const data = await res.json()
+      setUser(data.user)
+    }
+    if (!user) checkLoggedIn()
+  }, [])
+
+  const handleSubmit:(string:string)=>void = (whichForm) => {
+    return async () => {
+      const res = await fetch(`/${whichForm}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify()
+      })
+      const data = await res.json()
+      setUser(data.user)
+    }
+  }
+
+  const handleLogout = async () => {
+    const res = await fetch('/logout', {
+      method: 'POST'
+    })
+    const data = await res.json()
+    if (data.success) setUser(null)
+  }
+
+/***********************************************************************
+ Shares & Portfolios
+ **********************************************************************/
 
   useEffect(() => {
     fetch('http://127.0.0.1:4999/shares')
@@ -55,6 +95,18 @@ const App = () => {
         <>
           <Nav />
           <Home />
+        </>
+      } />
+      <Route path="/login" element = { 
+        <>
+          <Nav />
+          <LoginForm  />
+        </>
+      } />
+      <Route path="/register" element = { 
+        <>
+          <Nav />
+          <RegisterForm  />
         </>
       } />
       <Route path="/research" element = {

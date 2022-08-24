@@ -17,7 +17,7 @@ def create_portfolio(request):
 
 def create_portfolio_buy(request):
   print(request['shareId'])
-  priceQuery = SharePrice.query.filter(SharePrice.ShareId==request['shareId'], SharePrice.Date<request['date']).order_by(SharePrice.Date.desc()).limit(1).all()
+  priceQuery = SharePrice.query.filter(SharePrice.ShareId==request['shareId'], SharePrice.Date<=request['date']).order_by(SharePrice.Date.desc()).limit(1).all()
   data = share_price_schema.dump(priceQuery)
   price = data[0]['Price']
   qty = request['amount']//price
