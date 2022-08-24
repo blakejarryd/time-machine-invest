@@ -18,6 +18,7 @@ from .controllers.share_controller import (
   get_info_yf, 
   load_share_info, 
   get_price_data, 
+  get_price_data_max,
   get_share_db, 
   load_price_data
 )
@@ -46,8 +47,7 @@ for command in commands:
   app.cli.add_command(command)
 
 session = db.session()
-# q = session.query(Share).all()
-# print(q)
+
 ########################################################################
 # SHARE ROUTES
 ########################################################################
@@ -82,6 +82,21 @@ def get_share_info(ticker):
   resp = jsonify(f"Company information for {ticker} has been loaded")
   return resp
 
+@app.route('/loadall/info')
+def get_all_share_info():
+  shares = Share.query.with_entities(Share.Ticker).all()
+  share_tickers = share_schema.dump(shares)
+  for ticker in share_tickers:
+    try:
+      info = get_info_yf(ticker['Ticker'])
+      share = get_share_db(ticker['Ticker'])
+      load_share_info(share, info)
+      print(f"{ticker['Ticker']} info has been loaded")
+    except Exception as e:
+      print(e)
+  resp = jsonify(f"Information for all companies has been loaded")
+  return resp
+
 @app.route('/load/prices/<ticker>')
 def load_share_prices(ticker):
   share = get_share_db(ticker)
@@ -95,6 +110,19 @@ def load_share_prices(ticker):
   resp = jsonify(f"Price data from {from_date} for {ticker} has been loaded")
   return resp
 
+@app.route('/loadall/prices')
+def get_all_share_prices():
+  shares = Share.query.with_entities(Share.Id, Share.Ticker).all()
+  share_data = share_schema.dump(shares)
+  for share in share_data:
+    try:
+      price_data = get_price_data_max(share['Ticker'])
+      load_price_data(share['Id'], price_data)
+      print(f"{share['Ticker']} info has been loaded")
+    except Exception as e:
+      print(e)
+  resp = jsonify(f"Prices for all companies has been loaded")
+  return resp
 ########################################################################
 # USER ROUTES
 ########################################################################
@@ -125,7 +153,7 @@ def logout():
 @app.route('/is-authenticated')
 def is_authenticated():
   try:
-    result = auth_check(request.json)
+    result = auth_check()
   except:
     return jsonify("something went wrong")
   return result

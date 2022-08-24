@@ -14,11 +14,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableFooter,
   IconButton
 } from '@mui/material'
 import { Delete } from '@mui/icons-material';
 import PortfolioRow from './PortfolioRow'
 import moment from 'moment';
+import NumberFormat from 'react-number-format';
 
 interface PortfolioProps {
   shares: Share[]
@@ -31,6 +33,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   const [portfolioShares, setPortfolioShares] = useState<any[]>([])
   const [tableData, setTableData] = useState<any[]>([])
   const [add, setAdd] = useState(false)
+  const [gain, setGain] = useState(0)
 
   const getPortfolioShares = () => {
     fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio.Id}`)
@@ -84,7 +87,13 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
       )
     })
     setTableData(rows)
+    let totalGain = 0
+    shareData.map((share) => {
+      totalGain += Number(share.Gain)
+    })
+    setGain(totalGain)
   }
+
 
   useEffect(() => {
     refreshTableRows()
@@ -138,8 +147,8 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
       <CardHeader 
       title={selectedPortfolio.Name} 
       action={
-        <IconButton>
-          <Delete onClick={()=> deletePortfolio(selectedPortfolio.Id)}/>
+        <IconButton onClick={()=> deletePortfolio(selectedPortfolio.Id)}>
+          <Delete />
         </IconButton>
       }
       >
@@ -163,6 +172,10 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
           {tableData.map((row) => (
             <PortfolioRow row={row} shares={shares} deleteShare={deleteShare} submitBuy={submitBuy}/>
           ))}
+          <TableRow>
+            <TableCell sx={{fontWeight: 'bold'}} align='right' colSpan={8}>Total Gain/Loss</TableCell>
+            <TableCell sx={{fontWeight: 'bold'}}><NumberFormat value={gain} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} fixedDecimalScale={true}/></TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

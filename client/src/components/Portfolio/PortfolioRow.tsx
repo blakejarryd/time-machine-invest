@@ -42,14 +42,14 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
     <TableCell>{row.Name}</TableCell>
     <TableCell>{row.AquiredDate}</TableCell>
     <TableCell>{row.Qty}</TableCell>
-    <TableCell><NumberFormat value={row.CostPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
-    <TableCell><NumberFormat value={row.Cost} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
-    <TableCell><NumberFormat value={row.CurrentPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
-    <TableCell><NumberFormat value={row.CurrentValue} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
-    <TableCell><NumberFormat value={row.Gain} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
+    <TableCell><NumberFormat value={row.CostPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} fixedDecimalScale={true}/></TableCell>
+    <TableCell><NumberFormat value={row.Cost} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} fixedDecimalScale={true}/></TableCell>
+    <TableCell><NumberFormat value={row.CurrentPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} fixedDecimalScale={true}/></TableCell>
+    <TableCell><NumberFormat value={row.CurrentValue} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} fixedDecimalScale={true}/></TableCell>
+    <TableCell><NumberFormat value={row.Gain} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} fixedDecimalScale={true}/></TableCell>
     <TableCell>
-      <IconButton>
-        <Delete onClick={()=>deleteShare(row.Id)}/>
+      <IconButton onClick={()=>deleteShare(row.Id)}>
+        <Delete />
       </IconButton>
     </TableCell>
   </TableRow>
@@ -87,8 +87,7 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
       <TableCell colSpan={2}>    
         <TextField
           id="Amount"
-          label="Amount"
-  
+          label="Investment Amount"
           value={amount}
           onChange={(event) => {setAmount(Number(event.target.value))}}
           InputProps={{

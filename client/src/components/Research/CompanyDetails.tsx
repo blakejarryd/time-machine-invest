@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import SharePrices from './SharePrices';
 import { Card, CardHeader, CardContent, Accordion, AccordionSummary, AccordionDetails, Typography, Divider } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import NumberFormat from 'react-number-format';
 
 interface CompanyDetailsProps {
   ticker: string
@@ -54,8 +55,8 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
         <Typography sx={{ mt: 2, fontSize: 16 }} color="text.secondary" gutterBottom>
           Financials
         </Typography>
-        <Typography>Market Cap: {share.MarketCap}</Typography>
-        <Typography>Dividend Yield: {share.DividendYield}</Typography>
+        <Typography>Market Cap: <NumberFormat value={share.MarketCap} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={0} fixedDecimalScale={true}/></Typography>
+        <Typography>Dividend Yield: <NumberFormat value={share.DividendYield} displayType={'text'}  format={v => Number(v)/100 + "%"} thousandSeparator={true} decimalScale={4} fixedDecimalScale={true}/></Typography>
         <SharePrices ticker={ticker}/>
       </CardContent>
     </Card>

@@ -37,7 +37,7 @@ def logout_user():
   session.pop('user', None)
   return jsonify(success=True)
 
-def auth_check(request):
+def auth_check():
   user = session.get('user', None)
   if user:
       return jsonify(success=True, user=user)

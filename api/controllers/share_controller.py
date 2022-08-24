@@ -11,7 +11,6 @@ def get_info_yf(ticker):
   yfinance_ticker = ticker + ".AX"
   share = yf.Ticker(yfinance_ticker)
   info = share.info
-  print(info)
   return info
 
 def load_share_info(share, info):
@@ -40,6 +39,16 @@ def get_price_data(ticker, from_date):
   yfinance_ticker = ticker + ".AX"
   share = yf.Ticker(yfinance_ticker)
   prices = share.history(start=from_date)
+  prices.reset_index(inplace=True)
+  prices['Date'] = prices['Date'].dt.strftime('%Y-%m-%d')
+  prices.drop(['Dividends','Stock Splits', 'Open', 'High', 'Low', 'Volume'], inplace=True, axis=1)
+  price_dict = prices.to_dict(orient='records')
+  return price_dict
+
+def get_price_data_max(ticker):
+  yfinance_ticker = ticker + ".AX"
+  share = yf.Ticker(yfinance_ticker)
+  prices = share.history(period='max')
   prices.reset_index(inplace=True)
   prices['Date'] = prices['Date'].dt.strftime('%Y-%m-%d')
   prices.drop(['Dividends','Stock Splits', 'Open', 'High', 'Low', 'Volume'], inplace=True, axis=1)
