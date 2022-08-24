@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react'
-import { Routes, Route, Link} from "react-router-dom";
+import { Routes, Route, Link, useNavigate} from "react-router-dom";
 import './App.css';
 import Nav from './components/Nav';
 import Home from './components/Home';
@@ -22,6 +22,8 @@ const App = () => {
   const [portfolios, setPortfolios] = useState<PortfolioInterface[]>([])
   const [selectedPortfolio, setSelectedPortfolio] = useState<any>()
 
+  let navigate=useNavigate()
+
 /***********************************************************************
  * AUTH
  **********************************************************************/
@@ -34,19 +36,22 @@ const App = () => {
     if (!user) checkLoggedIn()
   }, [])
 
-  const handleSubmit:(string:string)=>void = (whichForm) => {
-    return async () => {
-      const res = await fetch(`/${whichForm}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // body: JSON.stringify()
-      })
-      const data = await res.json()
-      setUser(data.user)
-    }
+
+  const handleSubmit = async (whichForm:string, fields:any) => {
+    console.log(fields)
+    const res = await fetch(`/${whichForm}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(fields)
+    })
+    const data = await res.json()
+    console.log(data)
+    setUser(data.user)
+    navigate('/portfolio')
   }
+
 
   const handleLogout = async () => {
     const res = await fetch('/logout', {
@@ -93,25 +98,25 @@ const App = () => {
       <Routes>
       <Route path="/" element = { 
         <>
-          <Nav />
+          <Nav user={user} handleLogout={handleLogout}/>
           <Home />
         </>
       } />
       <Route path="/login" element = { 
         <>
-          <Nav />
-          <LoginForm  />
+          <Nav user={user} handleLogout={handleLogout}/>
+          <LoginForm handleSubmit={handleSubmit} />
         </>
       } />
       <Route path="/register" element = { 
         <>
-          <Nav />
-          <RegisterForm  />
+          <Nav user={user} handleLogout={handleLogout}/>
+          <RegisterForm handleSubmit={handleSubmit} />
         </>
       } />
       <Route path="/research" element = {
         <>
-          <Nav />
+          <Nav user={user} handleLogout={handleLogout}/>
           <Container maxWidth='xl' >
             <Grid2 container spacing={2}>
               <Grid2 xs={12} md={4}>
@@ -126,7 +131,7 @@ const App = () => {
       } />
       <Route path="/portfolio" element = {
         <>
-          <Nav />
+          <Nav user={user} handleLogout={handleLogout}/>
           <Container maxWidth='xl' >
             <Grid2 container spacing={0}>
               <Grid2 xs={12} lg={2}>

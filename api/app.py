@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import json
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
@@ -20,7 +22,10 @@ from .controllers.share_controller import (
   load_price_data
 )
 from .controllers.user_controller import (
-  create_user
+  auth_check,
+  create_user,
+  login_user,
+  logout_user
 )
 from .controllers.portfolio_controller import (
   create_portfolio,
@@ -29,7 +34,8 @@ from .controllers.portfolio_controller import (
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://invest_app:invest_app@localhost/timemachineinvest'
+app.secret_key = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.app_context().push()
@@ -92,13 +98,37 @@ def load_share_prices(ticker):
 ########################################################################
 # USER ROUTES
 ########################################################################
-@app.route('/user', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def new_user():
   try:
-    create_user(request.json)
+    result = create_user(request.json)
   except:
     return jsonify("something went wrong")
-  return jsonify("user created")
+  return result
+
+@app.route('/login', methods=['POST'])
+def login():
+  try:
+    result = login_user(request.json)
+  except:
+    return jsonify("something went wrong")
+  return result
+
+@app.route('/logout', methods=['POST'])
+def logout():
+  try:
+    result = logout_user()
+  except:
+    return jsonify("something went wrong")
+  return result
+
+@app.route('/is-authenticated')
+def is_authenticated():
+  try:
+    result = auth_check(request.json)
+  except:
+    return jsonify("something went wrong")
+  return result
 
 ########################################################################
 # PORTFOLIO ROUTES

@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 
-const Nav = () => {
+interface NavProps {
+  user:any 
+  handleLogout: () => void
+}
+
+const Nav = ({ user, handleLogout }:NavProps) => {
+
   return (
     <nav className='navbar'>
       <div className = 'left'>
@@ -16,9 +22,14 @@ const Nav = () => {
         </Link>
       </div>
       <div className = 'right'>
+      {!user &&
         <Link to='/login'>
           <div className='navitem'>Login</div>
         </Link>
+      }
+      {user &&
+        <div onClick={()=> handleLogout()} className='navitem'>Logout</div>
+      }
       </div>
     </nav>
   )

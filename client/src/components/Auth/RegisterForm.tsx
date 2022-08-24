@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import { Box, TextField,  Card, CardHeader, CardContent, CardActions, Button, Typography, Divider, ListItem, ListItemText} from '@mui/material'
 import { Container } from '@mui/system'
 
-interface LoginProps {
-  handleSubmit: (whichForm:string) => void
+interface RegisterProps {
+  handleSubmit: (whichForm:string, fields:any) => void
 }
 
 //{ handleSubmit }:LoginProps
 
-const RegisterForm = () => {
+const RegisterForm = ({ handleSubmit }:RegisterProps) => {
   const initialState = { username: '', password: '' }
   const [fields, setFields] = useState(initialState)
 
@@ -20,9 +20,8 @@ const RegisterForm = () => {
     })
   }
 
-  const submit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault()
-    // handleSubmit(fields)
+  const submit = (event:any) => {
+    handleSubmit('register', fields)
     setFields(initialState)
   }
 
@@ -37,6 +36,7 @@ const RegisterForm = () => {
           <TextField
             id="register-username"
             label="username"
+            name="username"
             value={fields.username}
             onChange={handleChange}
           ></TextField>
@@ -44,11 +44,16 @@ const RegisterForm = () => {
             sx={{marginTop: 3}}
             id="register-password"
             label="password"
+            name="password"
             type="password"
             value={fields.password}
             onChange={handleChange}
           ></TextField>
-          <Button variant="contained" sx={{width: 100, marginTop: 3}}>Submit</Button>
+          <Button 
+          onClick={submit}
+          variant="contained" 
+          sx={{width: 100, marginTop: 3}}
+          >Submit</Button>
           <Typography sx={{marginTop: 3}}>Already have an account?</Typography>
           <Typography sx={{marginTop: 3}}><Link to='/login'>Login</Link></Typography>
         </CardContent>
