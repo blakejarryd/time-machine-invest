@@ -4,6 +4,7 @@ import { FormControl, TableRow, TableCell, TextField, Autocomplete, InputAdornme
 import { AttachMoney, Edit, Delete } from '@mui/icons-material';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
+import NumberFormat from 'react-number-format';
 
 interface TableRowProps {
   row: {
@@ -41,11 +42,11 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
     <TableCell>{row.Name}</TableCell>
     <TableCell>{row.AquiredDate}</TableCell>
     <TableCell>{row.Qty}</TableCell>
-    <TableCell>{row.CostPrice}</TableCell>
-    <TableCell>{row.Cost}</TableCell>
-    <TableCell>{row.CurrentPrice}</TableCell>
-    <TableCell>{row.CurrentValue}</TableCell>
-    <TableCell>{row.Gain}</TableCell>
+    <TableCell><NumberFormat value={row.CostPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
+    <TableCell><NumberFormat value={row.Cost} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
+    <TableCell><NumberFormat value={row.CurrentPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
+    <TableCell><NumberFormat value={row.CurrentValue} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
+    <TableCell><NumberFormat value={row.Gain} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2}/></TableCell>
     <TableCell>
       <IconButton>
         <Delete onClick={()=>deleteShare(row.Id)}/>
