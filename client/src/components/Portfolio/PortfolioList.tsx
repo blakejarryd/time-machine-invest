@@ -8,10 +8,11 @@ interface PortfolioListProps {
   setSelectedPortfolio: React.Dispatch<React.SetStateAction<any>> 
   setPortfolios: React.Dispatch<React.SetStateAction<any>>
   portfolios:PortfolioInterface[]
+  userId:number
 }
 
 
-const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:PortfolioListProps) => {
+const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios, userId }:PortfolioListProps) => {
   const [addNew, setAddNew] = useState(false)
   const [addNewInput, setAddNewInput] = useState('')
 
@@ -51,7 +52,7 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios }:Portf
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ UserId: 1, Name: portfolioName})
+      body: JSON.stringify({ UserId: userId, Name: portfolioName})
     })
     const newPortfolio = await res.json()
     let updatedPortfolios = [...portfolios, newPortfolio[0]]

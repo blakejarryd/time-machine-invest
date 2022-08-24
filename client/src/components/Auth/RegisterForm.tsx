@@ -21,6 +21,7 @@ const RegisterForm = ({ handleSubmit }:RegisterProps) => {
   }
 
   const submit = (event:any) => {
+    event.preventDefault()
     handleSubmit('register', fields)
     setFields(initialState)
   }
@@ -32,6 +33,7 @@ const RegisterForm = ({ handleSubmit }:RegisterProps) => {
           title='Register'
           >
         </CardHeader>
+        <form onSubmit={submit}>
         <CardContent sx={{display: 'flex', flexDirection: 'column'}}>
           <TextField
             id="register-username"
@@ -50,13 +52,14 @@ const RegisterForm = ({ handleSubmit }:RegisterProps) => {
             onChange={handleChange}
           ></TextField>
           <Button 
-          onClick={submit}
+          type="submit"
           variant="contained" 
           sx={{width: 100, marginTop: 3}}
           >Submit</Button>
           <Typography sx={{marginTop: 3}}>Already have an account?</Typography>
           <Typography sx={{marginTop: 3}}><Link to='/login'>Login</Link></Typography>
         </CardContent>
+        </form>
       </Card>
     </Container>
   )

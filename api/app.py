@@ -166,7 +166,6 @@ def portfolio_shares(portfolioId):
     obj['CurrentValue'] = obj['Qty'] * obj['CurrentPrice']
     obj['CostPrice'] = obj['Cost']/obj['Qty']
     obj['Gain'] = obj['CurrentValue'] - obj['Cost']
-  print(data)
   return jsonify(data)
 
 @app.route('/portfolio/shares/<Id>', methods=['DELETE'])

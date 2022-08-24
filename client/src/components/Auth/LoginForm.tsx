@@ -19,6 +19,7 @@ const LoginForm = ({ handleSubmit }:LoginProps) => {
   }
 
   const submit = (event:any) => {
+    event.preventDefault()
     handleSubmit('login', fields)
     setFields(initialState)
   }
@@ -30,7 +31,9 @@ const LoginForm = ({ handleSubmit }:LoginProps) => {
           title='Login'
           >
         </CardHeader>
+        <form onSubmit={submit}>
         <CardContent sx={{display: 'flex', flexDirection: 'column'}}>
+          
           <TextField
             id="login-username"
             label="username"
@@ -48,13 +51,14 @@ const LoginForm = ({ handleSubmit }:LoginProps) => {
             onChange={handleChange}
           ></TextField>
           <Button 
-            onClick={submit}
+            type="submit"
             variant="contained" 
             sx={{width: 100, marginTop: 3}}
             >Login</Button>
           <Typography sx={{marginTop: 3}}>Dont have an account yet?</Typography>
           <Typography sx={{marginTop: 3}}><Link to='/register'>Register</Link></Typography>
         </CardContent>
+        </form>
       </Card>
     </Container>
   )

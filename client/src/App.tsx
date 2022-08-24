@@ -14,9 +14,10 @@ import PortfolioList from './components/Portfolio/PortfolioList';
 import Portfolio from './components/Portfolio/Portfolio';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container'
+import LoginPrompt from './components/Portfolio/LoginPrompt';
  
 const App = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<any>(null)
   const [shares, setShares] = useState<Share[]>([])
   const [selectedComany, setTicker] = useState('CBA')
   const [portfolios, setPortfolios] = useState<PortfolioInterface[]>([])
@@ -59,6 +60,7 @@ const App = () => {
     })
     const data = await res.json()
     if (data.success) setUser(null)
+    navigate('/')
   }
 
 /***********************************************************************
@@ -72,10 +74,11 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:4999/portfolio/1`)
+    if (!user) return
+    fetch(`http://127.0.0.1:4999/portfolio/${user.Id}`)
     .then(response => response.json())
     .then(portfolios => {setPortfolios(portfolios)})  
-  }, [])
+  }, [user])
 
   const deletePortfolio = async (id:number) => {
     const res = await fetch(`http://127.0.0.1:4999/portfolio/${id}`, {
@@ -132,16 +135,21 @@ const App = () => {
       <Route path="/portfolio" element = {
         <>
           <Nav user={user} handleLogout={handleLogout}/>
+          {!user && 
+          <Container maxWidth='md' >
+            <LoginPrompt />
+          </Container>}
+          {user && 
           <Container maxWidth='xl' >
             <Grid2 container spacing={0}>
-              <Grid2 xs={12} lg={2}>
-                <PortfolioList setSelectedPortfolio={setSelectedPortfolio} portfolios={portfolios} setPortfolios={setPortfolios}/>
+              <Grid2 xs={6} lg={2}>
+                <PortfolioList setSelectedPortfolio={setSelectedPortfolio} portfolios={portfolios} setPortfolios={setPortfolios} userId={user.Id}/>
               </Grid2>
               <Grid2 xs={12} lg={10}>
                 {selectedPortfolio && <Portfolio shares={shares} setTicker={setTicker} selectedPortfolio={selectedPortfolio} deletePortfolio={deletePortfolio}/>}
               </Grid2>
             </Grid2>
-          </Container>
+          </Container>}
         </>
       } />
       </Routes>

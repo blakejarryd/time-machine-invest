@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import logo from '../logo.png'
 
 interface NavProps {
   user:any 
@@ -10,7 +11,7 @@ const Nav = ({ user, handleLogout }:NavProps) => {
   return (
     <nav className='navbar'>
       <div className = 'left'>
-        <img src='/logo/TM Invest2.png' />
+        <img src={logo} />
         <Link to='/'>
           <div className='navitem'>Home</div>
         </Link>

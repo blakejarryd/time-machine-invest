@@ -72,7 +72,7 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
           renderInput={(params) => <TextField {...params} label="Company" />}
         />
       </TableCell>
-      <TableCell>
+      <TableCell colSpan={3}>
         <LocalizationProvider dateAdapter={AdapterMoment}>
           <DesktopDatePicker
             label="Purchase Date"
@@ -83,7 +83,7 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
           />
         </LocalizationProvider>
       </TableCell>
-      <TableCell>    
+      <TableCell colSpan={2}>    
         <TextField
           id="Amount"
           label="Amount"
