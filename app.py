@@ -209,3 +209,6 @@ def delete_portfolio(Id):
   db.session.delete(portfolio)
   db.session.commit()
   return jsonify("portfolio deleted")
+
+if __name__ == '__main__':
+   app.run()
