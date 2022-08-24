@@ -1,7 +1,5 @@
-import { FC, useState, useEffect } from 'react'
-import { Share, Shares } from '../../models/models'
-import { Link } from "react-router-dom";
-import { Divider, List, ListItem, ListItemText, Chip} from '@mui/material'
+import { Share } from '../../models/models'
+import { List, ListItem, ListItemText, Chip} from '@mui/material'
 
 interface ShareListProps {
   shares: Share[]

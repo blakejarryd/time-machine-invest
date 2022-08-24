@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Search from './Search'
 import SharesList from './SharesList'
-import { Share, Shares } from '../../models/models'
+import { Share } from '../../models/models'
 import { Paper } from '@mui/material'
 
 interface SearchListProps {

@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Share, Shares, SelectedPortfolio } from '../../models/models'
+import { Share, SelectedPortfolio } from '../../models/models'
 import { 
   Card, 
   CardHeader, 
   CardActions, 
-  CardContent, 
-  Typography, 
-  Divider, 
   Button,
   Table,
   TableBody,
@@ -14,7 +11,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableFooter,
   IconButton
 } from '@mui/material'
 import { Delete } from '@mui/icons-material';
