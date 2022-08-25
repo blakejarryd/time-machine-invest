@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import json
 from flask import Flask, request, jsonify, make_response
-from flask_cors import CORS
 import yfinance as yf
 from .commands import commands
 from .db import db
@@ -34,7 +33,6 @@ from .controllers.portfolio_controller import (
 )
 
 app = Flask(__name__)
-CORS(app)
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
