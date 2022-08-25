@@ -36,7 +36,7 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
         <Typography>Sector: {share.Sector}</Typography>
         <Typography>Industry: {share.Industry}</Typography>
         <Typography>Employees: {share.Employees}</Typography>
-        <Typography>Website: {share.Website}</Typography>
+        <Typography>Website: <a href={share.Website} target="_blank">{share.Website}</a></Typography>
         <Accordion elevation={0} >
           <AccordionSummary 
             sx={{pl:0 , width: '30%'}}

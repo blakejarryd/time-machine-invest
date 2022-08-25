@@ -107,10 +107,10 @@ def load_share_prices(ticker):
     resp = jsonify(f"{ticker} is an invalid ticker")
     return resp
   share_id = share.Id
-  from_date = calculate_start_date(ticker, request.args)
-  price_data = get_price_data(ticker, from_date)
+  # from_date = calculate_start_date(ticker, request.args)
+  price_data = get_price_data_max(ticker)
   load_price_data(share_id, price_data)
-  resp = jsonify(f"Price data from {from_date} for {ticker} has been loaded")
+  resp = jsonify(f"Price data for {ticker} has been loaded")
   return resp
 
 @app.route('/loadall/prices')

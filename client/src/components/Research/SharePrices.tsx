@@ -107,7 +107,6 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
 
   return (
     <>
-      <p>Prices</p>
       <ReactECharts option={options} />
       {/* {priceList} */}
     </>
