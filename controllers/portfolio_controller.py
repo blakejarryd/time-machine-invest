@@ -1,11 +1,11 @@
 import json
 import yfinance as yf
 from sqlalchemy import exc
-from ..config.db import db
-from ..models.portfolio import Portfolio, PortfolioShares
-from ..schemas.portfolio_schemas import portfolio_schema
-from ..models.share import Share, SharePrice
-from ..schemas.share_shemas import share_schema, share_price_schema
+from config.db import db
+from models.portfolio import Portfolio, PortfolioShares
+from schemas.portfolio_schemas import portfolio_schema
+from models.share import Share, SharePrice
+from schemas.share_shemas import share_schema, share_price_schema
 
 def create_portfolio(request):
   new_portfolio = Portfolio(UserId=request['UserId'], Name=request['Name'])

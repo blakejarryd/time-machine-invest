@@ -1,9 +1,9 @@
-from ..config.ma import ma
+from config.ma import ma
 from marshmallow import Schema, fields
 
 
-from ..models.portfolio import Portfolio, PortfolioShares
-from .share_shemas import share_schema
+from models.portfolio import Portfolio, PortfolioShares
+from schemas.share_shemas import share_schema
 
 class PortfolioSchema(ma.SQLAlchemyAutoSchema):
   class Meta:

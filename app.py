@@ -4,15 +4,15 @@ import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import yfinance as yf
-from .config.db import db
-from .config.ma import ma
-from .models.share import Share, SharePrice
-from .models.user import User
-from .models.portfolio import Portfolio, PortfolioShares
-from .schemas.share_shemas import share_schema, share_price_schema
-from .schemas.portfolio_schemas import portfolio_schema, portfolio_shares_schema
-from .schemas.user_schemas import user_schema
-from .controllers.share_controller import (
+from config.db import db
+from config.ma import ma
+from models.share import Share, SharePrice
+from models.user import User
+from models.portfolio import Portfolio, PortfolioShares
+from schemas.share_shemas import share_schema, share_price_schema
+from schemas.portfolio_schemas import portfolio_schema, portfolio_shares_schema
+from schemas.user_schemas import user_schema
+from controllers.share_controller import (
   calculate_start_date, 
   get_info_yf, 
   load_share_info, 
@@ -21,13 +21,13 @@ from .controllers.share_controller import (
   get_share_db, 
   load_price_data
 )
-from .controllers.user_controller import (
+from controllers.user_controller import (
   auth_check,
   create_user,
   login_user,
   logout_user
 )
-from .controllers.portfolio_controller import (
+from controllers.portfolio_controller import (
   create_portfolio,
   create_portfolio_buy
 )

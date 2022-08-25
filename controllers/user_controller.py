@@ -1,8 +1,8 @@
 import yfinance as yf
 from flask import session, jsonify
-from ..config.db import db
-from ..models.user import User
-from ..schemas.user_schemas import user_schema
+from config.db import db
+from models.user import User
+from schemas.user_schemas import user_schema
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_user(request):

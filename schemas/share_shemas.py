@@ -1,5 +1,5 @@
-from ..config.ma import ma
-from ..models.share import Share, SharePrice
+from config.ma import ma
+from models.share import Share, SharePrice
 
 class ShareSchema(ma.SQLAlchemyAutoSchema):
   class Meta:
