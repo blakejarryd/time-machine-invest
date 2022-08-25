@@ -33,7 +33,7 @@ from controllers.portfolio_controller import (
   create_portfolio_buy
 )
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app)
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_STRING')
@@ -208,9 +208,6 @@ def delete_portfolio(Id):
   db.session.commit()
   return jsonify("portfolio deleted")
 
-if __name__ == '__main__':
-   app.run()
-
 ########################################################################
 # DB SETUP ROUTES
 ########################################################################
@@ -231,3 +228,10 @@ def seed_db():
       db.session.rollback()
       return jsonify(e)
     return jsonify("db seeded")
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
+if __name__ == '__main__':
+   app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
