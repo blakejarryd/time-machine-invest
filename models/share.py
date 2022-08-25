@@ -4,7 +4,7 @@ class Share(db.Model):
   __tablename__ = 'Share'
   Id = db.Column(db.Integer, primary_key=True)
   Ticker = db.Column(db.String(10), nullable=False, unique=True)
-  Name = db.Column(db.String(150), nullable=False, unique=True)
+  Name = db.Column(db.String(150), nullable=False)
   Sector = db.Column(db.String(80))
   Industry = db.Column(db.String(80))
   Employees = db.Column(db.Integer)
