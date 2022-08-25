@@ -234,7 +234,10 @@ def seed_db():
       return jsonify(e)
     return jsonify("db seeded")
 
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
 if __name__ == '__main__':
-   app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
    
-   #, debug=False, port=os.environ.get('PORT', 80))
