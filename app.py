@@ -12,6 +12,7 @@ from models.portfolio import Portfolio, PortfolioShares
 from schemas.share_shemas import share_schema, share_price_schema
 from schemas.portfolio_schemas import portfolio_schema, portfolio_shares_schema
 from schemas.user_schemas import user_schema
+from seed.share_seed import source_shares
 from controllers.share_controller import (
   calculate_start_date, 
   get_info_yf, 
@@ -218,9 +219,11 @@ if __name__ == '__main__':
 def reset_db():
     db.drop_all()
     db.create_all()
+    return jsonify("db reset")
 
 @app.route('/database/seeddb')
 def seed_db():
-    share_data = [Share(Ticker=share,Name=shares[share]) for share in shares]
+    share_data = [Share(Ticker=share,Name=source_shares[share]) for share in source_shares]
     db.session.add_all(share_data)
     db.session.commit()
+    return jsonify("db seeded")

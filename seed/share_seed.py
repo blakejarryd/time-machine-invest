@@ -1,4 +1,4 @@
-shares = {
+source_shares = {
 "BHP" : "BHP Group Ltd",
 "CBA" : "Commonwealth Bank of Australia",
 "CSL" : "CSL Ltd",
