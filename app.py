@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import json
 from flask import Flask, request, jsonify, make_response
 import yfinance as yf
-from .commands import commands
 from .db import db
 from .ma import ma
 from .models.share import Share, SharePrice
@@ -40,9 +39,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 db.init_app(app)
 ma.init_app(app)
-
-for command in commands:
-  app.cli.add_command(command)
 
 session = db.session()
 
