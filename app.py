@@ -176,11 +176,11 @@ def new_portfolio():
 @app.route('/portfolio/buy', methods=['POST'])
 def new_portfolio_buy():
   try:
-    newbuy = create_portfolio_buy(request.json)
+    response = create_portfolio_buy(request.json)
   except Exception as e:
     print(e)
     return jsonify("something went wrong")
-  return portfolio_shares_schema.dump(newbuy, many=True)
+  return response
 
 @app.route('/portfolio/<userId>')
 def user_portfolios(userId):
@@ -194,11 +194,13 @@ def portfolio_shares(portfolioId):
   for row in query:
     data.append(dict(row))
   for obj in data:
+    print(obj['Qty'])
+    print(obj['CurrentPrice'])
     obj['CurrentValue'] = obj['Qty'] * obj['CurrentPrice']
     obj['CostPrice'] = obj['Cost']/obj['Qty']
     obj['Gain'] = obj['CurrentValue'] - obj['Cost']
   return jsonify(data)
-
+  
 @app.route('/portfolio/shares/<Id>', methods=['DELETE'])
 def delete_portfolio_share(Id):
   buy = PortfolioShares.query.filter_by(Id=Id).first()

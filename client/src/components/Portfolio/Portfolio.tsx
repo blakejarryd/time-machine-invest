@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, forwardRef } from 'react'
 import { Share, SelectedPortfolio } from '../../models/models'
 import { 
   Card, 
@@ -11,8 +11,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  IconButton
+  IconButton,
+  Snackbar,
 } from '@mui/material'
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Delete } from '@mui/icons-material';
 import PortfolioRow from './PortfolioRow'
 import moment from 'moment';
@@ -30,6 +32,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   const [tableData, setTableData] = useState<any[]>([])
   const [add, setAdd] = useState(false)
   const [gain, setGain] = useState(0)
+  const [message, setMessage] = useState<any>()
 
   const getPortfolioShares = () => {
     fetch(`/portfolio/shares/${selectedPortfolio.Id}`)
@@ -90,6 +93,19 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
     setGain(totalGain)
   }
 
+  const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+  }
+
 
   useEffect(() => {
     refreshTableRows()
@@ -104,8 +120,11 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
       body: JSON.stringify({ portfolioId: PortfolioId, shareId: ShareId, date:date, amount:amount })
     })
     const newBuy = await res.json()
-      .then(()=>getPortfolioShares())
-      .then(()=>cancelAddRow())
+    let responseData = (Object(newBuy))
+    setMessage(responseData.message)
+    getPortfolioShares()
+    cancelAddRow()
+    setTimeout(() => setMessage(''), 4000)
   }
 
   const submitBuy = (company:string, date: Date|null, amount:number) => {
@@ -179,6 +198,12 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
       {!add && <Button onClick={()=>addRow()}>Add</Button>}
       {add && <Button onClick={()=>cancelAddRow()}>Cancel</Button>}
       </CardActions>
+      {message && <Snackbar sx={{mt: 6}}  anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true} autoHideDuration={6000} onClose={handleClose}>
+        <Alert severity="error" sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>}
+
     </Card>
   )
 }

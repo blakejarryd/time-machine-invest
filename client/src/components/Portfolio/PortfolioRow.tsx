@@ -70,7 +70,7 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
           id="Company"
           options={shares.map((share) => share.Ticker + ' ' + share.Name)}
           sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Company" />}
+          renderInput={(params) => <TextField {...params} label="Company" required={true} />}
         />
       </TableCell>
       <TableCell colSpan={3}>
