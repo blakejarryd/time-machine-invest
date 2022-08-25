@@ -18,7 +18,7 @@ const Home = () => {
             <li>View full share price history</li>
           </ul>
           <Link to='/research'>
-            <Typography sx={{m:4}}>Go to Portfolios</Typography>
+            <Typography sx={{m:4}}>Go to Research</Typography>
           </Link>
         </div>
         <div className='portfolios'>
