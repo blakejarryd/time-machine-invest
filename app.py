@@ -1,4 +1,4 @@
-import os
+import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from dotenv import load_dotenv
 import json
 from flask import Flask, request, jsonify, make_response
