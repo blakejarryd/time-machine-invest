@@ -1,4 +1,4 @@
-from ..ma import ma
+from ..config.ma import ma
 from ..models.share import Share, SharePrice
 
 class ShareSchema(ma.SQLAlchemyAutoSchema):

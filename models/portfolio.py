@@ -1,4 +1,4 @@
-from ..db import db
+from ..config.db import db
 
 class Portfolio(db.Model):
   __tablename__ = 'Portfolio'

@@ -1,10 +1,11 @@
 import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 from dotenv import load_dotenv
 import json
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import yfinance as yf
-from .db import db
-from .ma import ma
+from .config.db import db
+from .config.ma import ma
 from .models.share import Share, SharePrice
 from .models.user import User
 from .models.portfolio import Portfolio, PortfolioShares
@@ -32,6 +33,7 @@ from .controllers.portfolio_controller import (
 )
 
 app = Flask(__name__)
+CORS(app)
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

@@ -1,4 +1,4 @@
-from ..ma import ma
+from ..config.ma import ma
 from marshmallow import Schema, fields
 
 
