@@ -15,6 +15,7 @@ The app can be accessed here https://tminvest.herokuapp.com/
 - Typescript
 
 ## Data Structure
+![image](https://user-images.githubusercontent.com/106789085/186611141-3400902a-8a05-4e39-a835-faf83142e234.png)
 
 
 
