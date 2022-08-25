@@ -33,7 +33,7 @@ from controllers.portfolio_controller import (
   create_portfolio_buy
 )
 
-app = Flask(__name__, static_folder='./build', static_url_path='/')
+app = Flask(__name__, static_folder='./client/build', static_url_path='/')
 CORS(app)
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_STRING')
@@ -45,9 +45,14 @@ ma.init_app(app)
 
 session = db.session()
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
 ########################################################################
 # SHARE ROUTES
 ########################################################################
+
 @app.route('/shares')
 def shares():
   shares = Share.query.with_entities(Share.Id, Share.Ticker, Share.Name).order_by(Share.MarketCap.desc().nullslast())
@@ -230,4 +235,6 @@ def seed_db():
     return jsonify("db seeded")
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
+   app.run(host='0.0.0.0')
+   
+   #, debug=False, port=os.environ.get('PORT', 80))
