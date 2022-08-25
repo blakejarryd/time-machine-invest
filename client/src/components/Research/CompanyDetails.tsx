@@ -13,7 +13,7 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
   const [share, setShare] = useState<Share>({})
 
   const fetchShareInfo: Function = () => {
-    fetch(`http://127.0.0.1:4999/shares/${ticker}`)
+    fetch(`/shares/${ticker}`)
     .then(response => response.json())
     .then(share => setShare(share[0]))  
   }

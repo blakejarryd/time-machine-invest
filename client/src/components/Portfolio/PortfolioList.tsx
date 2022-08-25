@@ -46,7 +46,7 @@ const PortfolioList = ({ setSelectedPortfolio, portfolios, setPortfolios, userId
 
   const addPortfolio = async (portfolioName:string) => {
     cancelAdd()
-    const res = await fetch('http://127.0.0.1:4999/portfolio', {
+    const res = await fetch('/portfolio', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

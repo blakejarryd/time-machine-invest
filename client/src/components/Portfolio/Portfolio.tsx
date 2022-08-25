@@ -32,7 +32,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   const [gain, setGain] = useState(0)
 
   const getPortfolioShares = () => {
-    fetch(`http://127.0.0.1:4999/portfolio/shares/${selectedPortfolio.Id}`)
+    fetch(`/portfolio/shares/${selectedPortfolio.Id}`)
     .then(response => response.json())
     .then(portShares => {
       setPortfolioShares(portShares)
@@ -96,7 +96,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   }, [portfolioShares])
 
   const addBuy = async (PortfolioId:number,ShareId:number, date: string, amount:number) => {
-    const res = await fetch('http://127.0.0.1:4999/portfolio/buy', {
+    const res = await fetch('/portfolio/buy', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -128,7 +128,7 @@ const Portfolio = ({ shares, setTicker, selectedPortfolio, deletePortfolio }: Po
   }
 
   const deleteShare = async (PortfolioShareId:number) => {
-    const res = await fetch(`http://127.0.0.1:4999/portfolio/shares/${PortfolioShareId}`, {
+    const res = await fetch(`/portfolio/shares/${PortfolioShareId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

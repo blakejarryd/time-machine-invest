@@ -68,20 +68,20 @@ const App = () => {
  **********************************************************************/
 
   useEffect(() => {
-    fetch('http://127.0.0.1:4999/shares')
+    fetch('/shares')
     .then(response => response.json())
     .then(shares => {setShares(shares)})  
   }, [])
 
   useEffect(() => {
     if (!user) return
-    fetch(`http://127.0.0.1:4999/portfolio/${user.Id}`)
+    fetch(`/portfolio/${user.Id}`)
     .then(response => response.json())
     .then(portfolios => {setPortfolios(portfolios)})  
   }, [user])
 
   const deletePortfolio = async (id:number) => {
-    const res = await fetch(`http://127.0.0.1:4999/portfolio/${id}`, {
+    const res = await fetch(`/portfolio/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

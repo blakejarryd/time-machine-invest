@@ -12,7 +12,7 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
   const [graphPrices, setGraphPrices] = useState<number[]>([])
 
   const fetchPriceInfo: Function = () => {
-    fetch(`http://127.0.0.1:4999/prices/${ticker}`)
+    fetch(`/prices/${ticker}`)
     .then(response => response.json())
     .then(prices => setShare(prices)) 
   }
