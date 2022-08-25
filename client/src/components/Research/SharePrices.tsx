@@ -19,13 +19,19 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
     fetch(`/prices/${ticker}`)
     .then(response => response.json())
     .then(prices => setShare(prices)) 
-    loader!.style.display = 'none'
-    graph!.style.display = 'block'
+   
   }
   
   useEffect(() => {
     fetchPriceInfo()
   }, [ticker])
+
+  useEffect(() => {
+    let loader = document.querySelector<HTMLElement>(".loader")
+    let graph = document.querySelector<HTMLElement>(".graph")
+    loader!.style.display = 'none'
+    graph!.style.display = 'block'
+  }, [prices])
 
 
   const populateGraphDates = () => {
