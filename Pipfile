@@ -12,6 +12,7 @@ psycopg2 = "*"
 yfinance = "*"
 marshmallow = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 
