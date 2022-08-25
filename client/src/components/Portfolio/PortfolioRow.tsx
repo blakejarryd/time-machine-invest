@@ -37,7 +37,7 @@ const PortfolioRow = ({ row, shares, deleteShare, submitBuy }:TableRowProps) => 
     <TableRow
     key={row.Ticker}
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-  >
+    >
     <TableCell>{row.Ticker}</TableCell>
     <TableCell>{row.Name}</TableCell>
     <TableCell>{row.AquiredDate}</TableCell>

@@ -12,16 +12,11 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
   const [graphPrices, setGraphPrices] = useState<number[]>([])
 
   const fetchPriceInfo: Function = () => {
-    let loader = document.querySelector<HTMLElement>(".loader")
-    let graph = document.querySelector<HTMLElement>(".graph")
-    loader!.style.display = 'block'
-    graph!.style.display = 'none'
     fetch(`/prices/${ticker}`)
     .then(response => response.json())
     .then(prices => setShare(prices)) 
-   
   }
-  
+
   useEffect(() => {
     fetchPriceInfo()
   }, [ticker])

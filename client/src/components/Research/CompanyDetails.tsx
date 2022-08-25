@@ -13,6 +13,10 @@ const CompanyDetails = ({ ticker }: CompanyDetailsProps) => {
   const [share, setShare] = useState<Share>({})
 
   const fetchShareInfo: Function = () => {
+    let loader = document.querySelector<HTMLElement>(".loader")
+    let graph = document.querySelector<HTMLElement>(".graph")
+    loader!.style.display = 'block'
+    graph!.style.display = 'none'
     fetch(`/shares/${ticker}`)
     .then(response => response.json())
     .then(share => setShare(share[0]))  
