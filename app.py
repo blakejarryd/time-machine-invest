@@ -56,6 +56,7 @@ def share_info(ticker):
   share = Share.query.filter_by(Ticker=ticker)
   return share_schema.dump(share)
 
+
 ########################################################################
 # PRICE ROUTES
 ########################################################################
@@ -208,3 +209,18 @@ def delete_portfolio(Id):
 
 if __name__ == '__main__':
    app.run()
+
+########################################################################
+# DB SETUP ROUTES
+########################################################################
+
+@app.route('/database/resetdb')
+def reset_db():
+    db.drop_all()
+    db.create_all()
+
+@app.route('/database/seeddb')
+def seed_db():
+    share_data = [Share(Ticker=share,Name=shares[share]) for share in shares]
+    db.session.add_all(share_data)
+    db.session.commit()
