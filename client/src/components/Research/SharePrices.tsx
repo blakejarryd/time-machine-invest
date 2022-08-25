@@ -12,9 +12,15 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
   const [graphPrices, setGraphPrices] = useState<number[]>([])
 
   const fetchPriceInfo: Function = () => {
+    let loader = document.querySelector<HTMLElement>(".loader")
+    let graph = document.querySelector<HTMLElement>(".graph")
+    loader!.style.display = 'block'
+    graph!.style.display = 'none'
     fetch(`/prices/${ticker}`)
     .then(response => response.json())
     .then(prices => setShare(prices)) 
+    loader!.style.display = 'none'
+    graph!.style.display = 'block'
   }
   
   useEffect(() => {
@@ -47,10 +53,6 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
   const options = {
     tooltip: {
       trigger: 'axis',
-    },
-    title: {
-      left: 'center',
-      text: ticker + ' price history'
     },
     toolbox: {
       feature: {
@@ -107,8 +109,11 @@ const SharePrices = ({ ticker }: SharePricesProps) => {
 
   return (
     <>
-      <ReactECharts option={options} />
-      {/* {priceList} */}
+      <div className = 'graphtitle'>
+        <h3>{ticker} Price history</h3>
+        <div className="loader"></div>
+      </div>
+      <ReactECharts className='graph' option={options} />
     </>
   )
 }

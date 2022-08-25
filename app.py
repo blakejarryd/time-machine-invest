@@ -217,22 +217,22 @@ def delete_portfolio(Id):
 # DB SETUP ROUTES
 ########################################################################
 
-@app.route('/database/resetdb')
-def reset_db():
-    db.drop_all()
-    db.create_all()
-    return jsonify("db reset")
+# @app.route('/database/resetdb')
+# def reset_db():
+#     db.drop_all()
+#     db.create_all()
+#     return jsonify("db reset")
 
-@app.route('/database/seeddb')
-def seed_db():
-    try:
-      share_data = [Share(Ticker=share,Name=source_shares[share]) for share in source_shares]
-      db.session.add_all(share_data)
-      db.session.commit()
-    except Exception as e:
-      db.session.rollback()
-      return jsonify(e)
-    return jsonify("db seeded")
+# @app.route('/database/seeddb')
+# def seed_db():
+#     try:
+#       share_data = [Share(Ticker=share,Name=source_shares[share]) for share in source_shares]
+#       db.session.add_all(share_data)
+#       db.session.commit()
+#     except Exception as e:
+#       db.session.rollback()
+#       return jsonify(e)
+#     return jsonify("db seeded")
 
 @app.errorhandler(404)
 def not_found(e):
